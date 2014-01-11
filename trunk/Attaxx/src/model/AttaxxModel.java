@@ -1,38 +1,47 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import model.algorithm.AlphaBeta;
+import model.algorithm.PlayerAlgo;
 
 
-public class AttaxxModel {
+public class AttaxxModel implements Cloneable{
 
 	private Cell[][] cells;
 	private String currentPlayer;
 	private int rowNumber, columnNumber;
-	private AlphaBeta alphaBeta;
+	private PlayerAlgo algo;
+
+
 	private boolean selected = false;
 
-	public AttaxxModel(int rowNumber, int columnNumber, AlphaBeta alphaBeta) {
+	public AttaxxModel(int rowNumber, int columnNumber, PlayerAlgo algo) {
 		this.columnNumber = columnNumber;
 		this.rowNumber = rowNumber;
-		this.alphaBeta = alphaBeta;
+		this.algo = algo;
 		initCells();
 		currentPlayer = Player.RED;
 	}
 
-	//	public AttaxxModel(AttaxxModel oldModel) {
-	//		columnNumber = oldModel.getColumnNumber();
-	//		rowNumber = oldModel.getRowNumber();
-	//		currentPlayer = oldModel.getCurrentPlayer();
-	//		alphaBeta = oldModel.getAlphaBeta();
-	//		cells = new Cell[getRowNumber()][getColumnNumber()];
-	//		for(int i = 0; i < getRowNumber();i++){
-	//			for(int j = 0; j < getColumnNumber();j++){
-	//				cells[i][j] = oldModel.getCell(i, j);
-	//			}
-	//		}
-	//	}
+	public AttaxxModel(AttaxxModel oldModel) {
+		columnNumber = oldModel.getColumnNumber();
+		rowNumber = oldModel.getRowNumber();
+		currentPlayer = oldModel.getCurrentPlayer();
+		algo = oldModel.getAlgo();
+		
+		cells = new Cell[getRowNumber()][getColumnNumber()];
+		
+		for( int c = 0; c < getRowNumber(); c++){
+			System.arraycopy(oldModel.cells[c], 0,
+					cells[c], 0,
+					getColumnNumber());
+		}
+	}
+
+	public PlayerAlgo getAlgo() {
+		return algo;
+	}
 
 	public Cell[][] getCells() {
 		return cells;
@@ -60,10 +69,6 @@ public class AttaxxModel {
 
 	public int getColumnNumber() {
 		return columnNumber;
-	}
-
-	public AlphaBeta getAlphaBeta() {
-		return alphaBeta;
 	}
 
 	public Cell getNeighbour(Cell c) {
@@ -129,7 +134,6 @@ public class AttaxxModel {
 			if (currentPlayer != m.getCurrentPlayer()) return false;
 			if (getRowNumber() != m.getRowNumber()) return false;
 			if (getColumnNumber() != m.getColumnNumber()) return false;
-			if (!getAlphaBeta().equals(m.getAlphaBeta())) return false;
 			for( int r = 0; r< getRowNumber(); r++)
 				for( int c = 0; c< getColumnNumber(); c++)
 					if( cells[r][c] != m.getCell(r, c))
@@ -139,16 +143,8 @@ public class AttaxxModel {
 		return false;
 	}
 
-	public Object clone(){ 
-		AttaxxModel m = new AttaxxModel(rowNumber, columnNumber, alphaBeta);
-		m.setCurrentPlayer(currentPlayer);
-		m.selected = selected;
-		for(int i = 0; i < getRowNumber();i++){
-			for(int j = 0; j < getColumnNumber();j++){
-				m.cells[i][j] = cells[i][j];
-			}
-		}
-		return (Object) this;
+	public AttaxxModel clone(){ 
+		return new AttaxxModel(this);
 	}
 
 	// a modifier
@@ -181,7 +177,10 @@ public class AttaxxModel {
 	}
 
 	public void playMove(Move m){
-		if(!isLegal(m)) return;	
+//				if(!isLegal(m)){
+//					System.out.println("return");
+//					return;	
+//				}
 
 		List<Cell> listNeib = m.getRoot().getNeighborhoods();
 
@@ -227,5 +226,64 @@ public class AttaxxModel {
 			}
 		}
 		nextPlayer();
+	}
+
+	public List<Cell> getCells(String player){
+		List<Cell> list = new ArrayList<Cell>();
+		for(int i = 0; i < getRowNumber();i++){
+			for(int j = 0; j < getColumnNumber();j++){
+				if(cells[i][j].getPlayer().equals(player))
+					list.add(cells[i][j]);
+
+			}
+		}
+
+		return list;
+
+	}
+
+	public int heristic(){
+		return getCells(Player.BLUE).size() - getCells(Player.RED).size() ;
+	}
+	
+	public AttaxxModel simulateMove(Move m) {
+		AttaxxModel md = clone();
+		List<Cell> listNeib = m.getRoot().getNeighborhoods();
+		if(m.getTarget().isNeighborhood(m.getRoot())){
+			md.getCell(m.getTarget().getRow(),m.getTarget().getCol()).setPlayer(m.getRoot().getPlayer());
+			// changer la couleur des voisins
+			for (Cell c : listNeib) {
+				if(!c.isEmpty() && !c.isBlock() && !c.getPlayer().equals(Player.BLUE)){
+					md.getCell(c.getRow(), c.getCol()).setPlayer(m.getPlayer());
+				}
+			}
+		}
+		else {
+			boolean saut = false;
+			for (Cell c : listNeib) {
+				if(m.getTarget().isNeighborhood(md.getCell(c.getRow(), c.getCol())) 
+						&& !md.getCell(c.getRow(), c.getCol()).equals(m.getTarget())){
+					saut=true;
+				}
+			}
+			if (saut){
+				// changer la couleur de la deuxime par celle de la 1ere
+				md.getCell(m.getTarget().getRow(),m.getTarget().getCol()).setPlayer(m.getPlayer());
+				// la premiere devient blanche
+				md.getCell(m.getRoot().getRow(),m.getRoot().getCol()).setEmpty();
+				// changer la couleur des voisins
+				for (Cell c : listNeib) {
+					if(!md.getCell(c.getRow(), c.getCol()).isEmpty() 
+							&& !md.getCell(c.getRow(), c.getCol()).isBlock() 
+							&& !md.getCell(c.getRow(), c.getCol()).getPlayer().equals(Player.BLUE)){
+						md.getCell(c.getRow(), c.getCol()).setPlayer(m.getPlayer());
+					}
+				}
+			}else{
+				System.out.println("impossible de faire cette action");
+			}
+		}
+		md.nextPlayer();
+		return md;
 	}
 }

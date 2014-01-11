@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Cell {
+public class Cell implements Comparable<Cell>, Cloneable {
 	
 	private int row, column;
 	private AttaxxModel boardModel;
@@ -142,5 +142,21 @@ public class Cell {
 	@Override
 	public String toString() {
 		return "Cell("+row+","+column+")";
+	}
+
+	@Override
+	public int compareTo(Cell c) {
+		return (c.equals(this)) ? 0 : 1 ;
+	}
+	
+	@Override
+	public Cell clone(){
+		Cell c = null;
+		try {
+			c = (Cell)super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return c;
 	}
 }
