@@ -67,7 +67,6 @@ public class MiniMax implements PlayerAlgo{
 		
 		// retourne de meilleur mouvement
 		return bestMove;
-		
 	}
 
 }

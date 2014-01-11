@@ -32,10 +32,10 @@ public class AttaxxModel implements Cloneable{
 		
 		cells = new Cell[getRowNumber()][getColumnNumber()];
 		
-		for( int c = 0; c < getRowNumber(); c++){
-			System.arraycopy(oldModel.cells[c], 0,
-					cells[c], 0,
-					getColumnNumber());
+		for(int i = 0; i < getRowNumber();i++){
+			for(int j = 0; j < getColumnNumber();j++){
+				cells[i][j] = oldModel.getCell(i, j).clone();
+			}
 		}
 	}
 
