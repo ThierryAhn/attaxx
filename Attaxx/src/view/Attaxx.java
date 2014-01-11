@@ -4,7 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import model.AttaxxModel;
-import model.algorithm.AlphaBeta;
+import model.algorithm.MiniMax;
+import model.algorithm.PlayerAlgo;
 
 /**
  * The view of the game Attaxx
@@ -18,7 +19,7 @@ public class Attaxx {
 	private GameBoard board;
 
 	private AttaxxModel model;
-	private AlphaBeta alphaBeta;
+	private PlayerAlgo algo;
 
 	/**
 	 * Constructor
@@ -34,8 +35,8 @@ public class Attaxx {
 	 * Creates a Model
 	 */
 	private void createModel() {
-		alphaBeta = new AlphaBeta();
-		model = new AttaxxModel(7, 7, alphaBeta);
+		algo = new MiniMax();
+		model = new AttaxxModel(7, 7, algo);
 	}
 
 	/**

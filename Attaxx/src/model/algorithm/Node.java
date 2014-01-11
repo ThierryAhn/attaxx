@@ -10,12 +10,12 @@ public class Node {
 	/**
 	 * plus infinity
 	 */
-	public final static int PLUS_INFINITY=1001; 
+	public final static int PLUS_INFINITY=1000; 
 	
 	/**
 	 * minus infinity
 	 */
-	public final static int MINUS_INFINITY=-1001; 
+	public final static int MINUS_INFINITY=-1000; 
 
 	private AttaxxModel game;
 	

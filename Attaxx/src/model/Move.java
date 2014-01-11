@@ -1,23 +1,20 @@
 package model;
 
 
-public class Move {
+public class Move implements Comparable<Move> {
 
 	private String player;
 	private Cell root;
 	private Cell target;
-	private boolean isPass;
 	
 	public Move(String player, Cell root, Cell target){
 		this.player = player;
 		this.root = root;
 		this.target = target;
-		isPass = false;
 	}
 
 	private Move(String player){
 		this.player = player;
-		isPass = true;
 	}
 
 	static Move getNewPassMove(String player){
@@ -35,10 +32,6 @@ public class Move {
 	public Cell getTarget() {
 		return target;
 	}
-
-	public boolean isPass() {
-		return isPass;
-	}
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -46,9 +39,26 @@ public class Move {
 			Move m = (Move)obj;
 			return m.getRoot().equals(root) 
 					&& m.getTarget().equals(target)
-					&& m.getPlayer().equals(player)
-					&& m.isPass() == isPass;
+					&& m.getPlayer().equals(player);
+			
 		}
 		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return player + " : "+ root +" to " + target;
+	}
+
+	@Override
+	public int compareTo(Move m) {
+		int comp = m.getRoot().compareTo(getRoot());
+		if (comp == 0) {
+			comp = m.getTarget().compareTo(getTarget());
+			if (comp == 0) {
+				comp = m.getPlayer().compareTo(getPlayer());
+			}
+		}
+		return comp;
 	}
 }

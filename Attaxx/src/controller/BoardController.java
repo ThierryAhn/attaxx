@@ -20,6 +20,8 @@ public class BoardController extends MouseAdapter {
 			Cell cell =
 					(Cell) table.getValueAt(table.rowAtPoint(e.getPoint()),
 							table.columnAtPoint(e.getPoint()));
+			
+
 			if (e.getButton() == MouseEvent.BUTTON1 
 					&& e.getClickCount() == 1
 					&& model.getBoard().getCurrentPlayer().equals(Player.RED)){
@@ -51,15 +53,10 @@ public class BoardController extends MouseAdapter {
 								}
 								// annuller la selection de la premiere
 								model.getBoard().setSelected(model.getBoard().getSelected(), false);
-								table.repaint();
 								model.getBoard().nextPlayer();
-								try {
-									Thread.sleep(3000);
-								} catch (InterruptedException e1) {
-									e1.printStackTrace();
-								}
-								model.getBoard().playMove(model.getBoard().getAlphaBeta().getNextMove(model.getBoard()));
-								table.repaint();
+								System.out.println("before playing");
+								model.getBoard().playMove(model.getBoard().getAlgo().getNextMove(model.getBoard()));
+								System.out.println("after playing");
 							}else{// si la deuxieme n'est pas voisine
 								List<Cell> listNeib = model.getBoard().getSelected().getNeighborhoods();
 								boolean saut = false;
@@ -84,20 +81,14 @@ public class BoardController extends MouseAdapter {
 								}
 								// annuller la selection de la premiere
 								model.getBoard().setSelected(model.getBoard().getSelected(), false);
-								table.repaint();
 								model.getBoard().nextPlayer();
-								try {
-									Thread.sleep(3000);
-								} catch (InterruptedException e1) {
-									e1.printStackTrace();
-								}
-								model.getBoard().playMove(model.getBoard().getAlphaBeta().getNextMove(model.getBoard()));
-								table.repaint();
+								model.getBoard().playMove(model.getBoard().getAlgo().getNextMove(model.getBoard()));
 							}		
 						}
 					}
 				}
 			}
+			table.repaint();
 		}
 	}
 }
