@@ -29,9 +29,9 @@ public class AttaxxModel implements Cloneable{
 		rowNumber = oldModel.getRowNumber();
 		currentPlayer = oldModel.getCurrentPlayer();
 		algo = oldModel.getAlgo();
-		
+
 		cells = new Cell[getRowNumber()][getColumnNumber()];
-		
+
 		for(int i = 0; i < getRowNumber();i++){
 			for(int j = 0; j < getColumnNumber();j++){
 				cells[i][j] = oldModel.getCell(i, j).clone();
@@ -119,10 +119,8 @@ public class AttaxxModel implements Cloneable{
 
 	public void nextPlayer(){
 		if (currentPlayer.equals(Player.RED)){
-			System.out.println("-----------Blue turn");
 			currentPlayer = Player.BLUE;
 		}else if (currentPlayer.equals(Player.BLUE)){
-			System.out.println("-----------Red turn");
 			currentPlayer = Player.RED;
 		}
 	}
@@ -157,11 +155,12 @@ public class AttaxxModel implements Cloneable{
 		return true;
 	}
 
-	boolean isLegal(Move move){
+	public boolean isLegal(Move move){
 		if(move.getPlayer().equals(currentPlayer)
 				&& !move.getTarget().equals(move.getRoot())
 				&& !move.getRoot().isEmpty()
-				&& move.getTarget().isEmpty()){
+				&& move.getTarget().isEmpty()
+				&& !move.getTarget().isBlock()){
 			if(move.getTarget().isNeighborhood(move.getRoot())){
 				return true;
 			}else {
@@ -177,55 +176,58 @@ public class AttaxxModel implements Cloneable{
 	}
 
 	public void playMove(Move m){
-//				if(!isLegal(m)){
-//					System.out.println("return");
-//					return;	
-//				}
-
-		List<Cell> listNeib = m.getRoot().getNeighborhoods();
-
-		System.out.println("The move the play is : " + m.getRoot() + " to " + m.getTarget());
-
-		if(m.getTarget().isNeighborhood(m.getRoot())){
-			System.out.println("duplicate Move");
-			getCell(m.getTarget().getRow(),m.getTarget().getCol()).setPlayer(m.getRoot().getPlayer());
-			System.out.println("duplicate Move Played");
-			// changer la couleur des voisins
-			for (Cell c : listNeib) {
-				if(!c.isEmpty() && !c.isBlock() && !c.getPlayer().equals(Player.BLUE)){
-					c.setPlayer(m.getPlayer());
-					System.out.println(c+" Changed to blue");
-				}
-			}
-			System.out.println("->Neibors changing finished");
+		if(!isLegal(m)){	
+			return;		// never called, since isLegal only returns true
 		}
-		else {
-			System.out.println("Jump Move");
-			boolean saut = false;
-			for (Cell c : listNeib) {
-				if(m.getTarget().isNeighborhood(c) && !c.equals(m.getTarget())){
-					saut=true;
-				}
-			}
-			if (saut){
+		// si la cible selectionnée est rouge ou bleu ou noir
+		if(!m.getTarget().isEmpty()){
+			System.out.println("impossible de faire cette action");
+		}else{
+			// si la deuxieme est voisine
+			if(m.getRoot().isNeighborhood(m.getTarget())){
 				// changer la couleur de la deuxime par celle de la 1ere
-				getCell(m.getTarget().getRow(),m.getTarget().getCol()).setPlayer(m.getPlayer());
-				// la premiere devient blanche
-				getCell(m.getRoot().getRow(),m.getRoot().getCol()).setEmpty();
-				System.out.println("Jump Move Played");
+				m.getTarget().setPlayer(m.getRoot().getPlayer());
+
+				List<Cell> listNeib = m.getTarget().getNeighborhoods();
 				// changer la couleur des voisins
 				for (Cell c : listNeib) {
-					if(!c.isEmpty() && !c.isBlock() && !c.getPlayer().equals(Player.BLUE)){
-						c.setPlayer(m.getPlayer());
-						System.out.println(c+" Changed to blue");
+					if(!c.isEmpty() && !c.isBlock()){
+						c.setPlayer(m.getRoot().getPlayer());
 					}
 				}
-				System.out.println("->Neibors changing finished");
-			}else{
-				System.out.println("impossible de faire cette action");
+				// annuller la selection de la premiere
+				setSelected(getSelected(), false);
+				nextPlayer();
+			}else{// si la deuxieme n'est pas voisine
+				boolean saut = false;
+				List<Cell> listNeib = m.getRoot().getNeighborhoods();
+				for (Cell c : listNeib) {
+					if(m.getTarget().isNeighborhood(c) && !c.equals(m.getTarget())){
+						saut=true;
+					}
+				}
+				if (saut){
+					// changer la couleur de la deuxime par celle de la 1ere
+					m.getTarget().setPlayer(m.getRoot().getPlayer());
+					// la premiere devient blanche
+					m.getRoot().setEmpty();
+					// changer la couleur des voisins
+					listNeib = m.getTarget().getNeighborhoods();
+					for (Cell c : listNeib) {
+						if(!c.isEmpty() && !c.isBlock()){
+							c.setPlayer(m.getTarget().getPlayer());
+						}
+					}
+					// annuller la selection de la premiere
+					setSelected(getSelected(), false);
+					nextPlayer();
+				}else{
+					// annuller la selection de la premiere
+					setSelected(getSelected(), false);
+					System.out.println("impossible de faire cette action");
+				}
 			}
 		}
-		nextPlayer();
 	}
 
 	public List<Cell> getCells(String player){
@@ -242,10 +244,13 @@ public class AttaxxModel implements Cloneable{
 
 	}
 
-	public int heristic(){
-		return getCells(Player.BLUE).size() - getCells(Player.RED).size() ;
+	public int heuristic(){
+		if (getCurrentPlayer().equals(Player.BLUE)){
+			return getCells(Player.BLUE).size() - getCells(Player.RED).size();
+		}
+		return getCells(Player.RED).size() - getCells(Player.BLUE).size() ;
 	}
-	
+
 	public AttaxxModel simulateMove(Move m) {
 		AttaxxModel md = clone();
 		List<Cell> listNeib = m.getRoot().getNeighborhoods();
