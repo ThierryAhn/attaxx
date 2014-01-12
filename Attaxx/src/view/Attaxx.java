@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import model.AttaxxModel;
+import model.algorithm.AlphaBeta;
 import model.algorithm.MiniMax;
 import model.algorithm.PlayerAlgo;
 

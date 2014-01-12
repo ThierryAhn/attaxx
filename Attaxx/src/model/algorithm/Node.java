@@ -10,30 +10,28 @@ public class Node {
 	/**
 	 * plus infinity
 	 */
-	public final static int PLUS_INFINITY=1000; 
+	public final static int PLUS_INFINITY=Integer.MAX_VALUE; 
 	
 	/**
 	 * minus infinity
 	 */
-	public final static int MINUS_INFINITY=-1000; 
+	public final static int MINUS_INFINITY=Integer.MIN_VALUE; 
 
-	private AttaxxModel game;
+	private AttaxxModel model;
 	
 	private int alpha = PLUS_INFINITY;
 	private int beta  = MINUS_INFINITY;
 
-	public Node(AttaxxModel game, Move move){
-		this.game = game;
-		if(game.getCurrentPlayer().equals(Player.BLUE))
-		game.playMove(move);
+	public Node(AttaxxModel model, Move move){
+		this.model = model.simulateMove(move);
 	}
 	
-	public AttaxxModel getGame() {
-		return game;
+	public AttaxxModel getModel() {
+		return model;
 	}
 
-	public void setGame(AttaxxModel game) {
-		this.game = game;
+	public void setGame(AttaxxModel model) {
+		this.model = model;
 	}
 
 	public int getAlpha() {
