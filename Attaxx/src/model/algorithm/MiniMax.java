@@ -24,7 +24,7 @@ public class MiniMax implements PlayerAlgo{
 	 */
 	private MoveEnumerator moveEnum;
 
-	private int maxDept = 3;
+	private int maxDept = 1;
 
 	public MiniMax() {
 		moveEnum = new MoveEnumerator();
@@ -55,8 +55,7 @@ public class MiniMax implements PlayerAlgo{
 			}
 		}
 
-		// 22 a corriger
-		//		System.out.println(listM.size());
+		System.out.println(listM.size());
 
 		// retourne de meilleur mouvement
 		System.out.println(bestMove);
