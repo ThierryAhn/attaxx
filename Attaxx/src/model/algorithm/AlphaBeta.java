@@ -56,7 +56,6 @@ public class AlphaBeta implements PlayerAlgo{
 			Node n = new Node(model, m);
 			// on calcule la valeur Alpha-Beta sur les noeuds fils
 			newVal = alphaBeta(1, n, alpha, beta);
-			System.out.println(newVal +"<"+ alpha);
 			if(newVal < beta) {
 				alpha = newVal;
 				bestMove = m;
