@@ -36,7 +36,7 @@ public class Attaxx {
 	 * Creates a Model
 	 */
 	private void createModel() {
-		algo = new MiniMax();
+		algo = new AlphaBeta(3);
 		model = new AttaxxModel(7, 7, algo);
 	}
 

@@ -45,7 +45,7 @@ public class BoardController extends MouseAdapter {
 							Move m = new Move(model.getBoard().getCurrentPlayer(), model.getBoard().getSelected(), cell);
 							if (model.getBoard().isLegal(m)){
 								model.getBoard().playMove(m);
-								System.out.println("Red just finished playing");
+//								System.out.println("Red just finished playing");
 								//							try {
 								//								Thread.sleep(1000);
 								//							} catch (InterruptedException e1) {
