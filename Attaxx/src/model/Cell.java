@@ -146,7 +146,7 @@ public class Cell implements Comparable<Cell>, Cloneable {
 
 	@Override
 	public int compareTo(Cell c) {
-		return (c.equals(this)) ? 0 : 1 ;
+		return (c.equals(this)) ? 0 : 1;
 	}
 	
 	@Override
