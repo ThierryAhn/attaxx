@@ -7,29 +7,30 @@ import model.AttaxxModel;
 import model.Move;
 import model.MoveEnumerator;
 
+/**
+ * Classe modélisant le joueur de l'IA en basant sur l'algorithme Minimax
+ * 
+ * @author Rachid ABALINE & Thierry Folabi AHOUNOU
+ *
+ */
 public class MiniMax implements PlayerAlgo{
-
-	/**
-	 * plus infinity
-	 */
-	public final static int PLUS_INFINITY=Integer.MAX_VALUE; 
-
-	/**
-	 * minus infinity
-	 */
-	public final static int MINUS_INFINITY=-Integer.MIN_VALUE; 
-
-	/**
-	 * List des mouvement possibles
-	 */
+	
+	// ATTRIBUTS
+	
+	//List des mouvement possibles
 	private MoveEnumerator moveEnum;
 
-	private int maxDept = 1;
+	private int maxDept;
 
-	public MiniMax() {
+	// CONSTRUCTORS
+	
+	public MiniMax(int maxDept) {
 		moveEnum = new MoveEnumerator();
+		this.maxDept = maxDept;
 	}
 
+	// FONCTIONS
+	
 	@Override
 	public Move getNextMove(AttaxxModel model) {
 		// Meilleur Movement
@@ -62,6 +63,12 @@ public class MiniMax implements PlayerAlgo{
 		return bestMove;
 	}
 
+	/**
+	 * 
+	 * @param dept
+	 * @param model
+	 * @return
+	 */
 	private int miniMax(int dept, AttaxxModel model){
 		if (dept >= maxDept){
 			return model.heuristic();
@@ -72,7 +79,7 @@ public class MiniMax implements PlayerAlgo{
 		Iterator<Move> i=listM.iterator();
 
 		// si c'est Max
-		if (dept % 2 != 0){
+		if (model.getCurrentPlayer().equals(MAX)){
 			int val = MINUS_INFINITY;
 			while (i.hasNext()) {
 				Move  m = i.next();
@@ -92,5 +99,4 @@ public class MiniMax implements PlayerAlgo{
 		}
 		return val;
 	}
-
 }
