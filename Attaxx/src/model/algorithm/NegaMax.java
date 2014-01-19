@@ -8,33 +8,40 @@ import model.Move;
 import model.MoveEnumerator;
 
 /**
- * Classe modélisant le joueur de l'IA en basant sur l'algorithme Minimax
+ * Classe modélisant le joueur de l'IA en basant sur l'algorithme NegaMax
  * 
  * @author Rachid ABALINE & Thierry Folabi AHOUNOU
  *
  */
-public class MiniMax implements PlayerAlgo{
-	
+public class NegaMax implements PlayerAlgo {
+
 	// ATTRIBUTS
-	
+
+	/**
+	 * Profondeur maximale
+	 */
 	private int maxDepth;
 
 	// CONSTRUCTORS
-	
-	public MiniMax(int maxDept) {
-		
-		this.maxDepth = maxDept;
+
+	/**
+	 * Constructeur
+	 * 
+	 * @param maxDepth Profondeur Maximale
+	 */
+	public NegaMax(int maxDepth) {
+		this.maxDepth = maxDepth;
 	}
 
 	// FONCTIONS
-	
+
 	@Override
 	public Move getNextMove(AttaxxModel model) {
 		// Meilleur Movement
 		Move bestMove=null;
 
-		int val = PLUS_INFINITY;
-		
+		int val = MINUS_INFINITY;
+
 		//List des mouvement possibles
 		MoveEnumerator moveEnum = new MoveEnumerator();
 		// List des movements possibles
@@ -46,28 +53,17 @@ public class MiniMax implements PlayerAlgo{
 			Move  m = i.next();
 			// on simule de mouvement
 			AttaxxModel md = model.simulateMove(m);
-			int newVal = miniMax(1, md);
-			// Max des heuristiques
-			if (newVal < val){
+			int newVal = -1*negaMax(1, md);
+			if (newVal > val){
 				val  = newVal;
 				bestMove = m;
 			}
 		}
-
-		System.out.println(listM.size());
-
-		// retourne de meilleur mouvement
-		System.out.println(bestMove);
+		// retourne le meilleur mouvement
 		return bestMove;
 	}
 
-	/**
-	 * 
-	 * @param dept
-	 * @param model
-	 * @return
-	 */
-	private int miniMax(int dept, AttaxxModel model){
+	private int negaMax(int dept, AttaxxModel model){
 		if (dept >= maxDepth){
 			return model.heuristic();
 		}
@@ -76,24 +72,12 @@ public class MiniMax implements PlayerAlgo{
 		Set<Move> listM = mv.getPossibleMoves(model);
 		Iterator<Move> i=listM.iterator();
 
-		// si c'est Max
-		if (model.getCurrentPlayer().equals(MAX)){
-			int val = MINUS_INFINITY;
-			while (i.hasNext()) {
-				Move  m = i.next();
-				// on simule de mouvement
-				AttaxxModel md = model.simulateMove(m);
-				val = Math.max(val, miniMax(dept + 1,md));
-			}
-			return val;
-		}
-		// si c'est Min
-		int val = PLUS_INFINITY;
+		int val = MINUS_INFINITY;
 		while (i.hasNext()) {
 			Move  m = i.next();
 			// on simule de mouvement
 			AttaxxModel md = model.simulateMove(m);
-			val = Math.min(val, miniMax(dept + 1,md));
+			val = Math.max(val,-1*negaMax(dept + 1,md));
 		}
 		return val;
 	}
