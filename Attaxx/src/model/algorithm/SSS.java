@@ -50,6 +50,13 @@ public class SSS implements PlayerAlgo {
 			System.out.println(listG);
 			// on extrait le premier noeud de la liste
 			NodeSSS n = extractFirst();
+			System.err.println(n);
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			// si le noeud est vivant
 			if (!n.isResolved()){
 				if(n.depth >= maxDepth){
@@ -142,7 +149,29 @@ public class SSS implements PlayerAlgo {
 	 * @return
 	 */
 	private NodeSSS getRightBrother(NodeSSS n){
-		System.err.println("DEBUT");
+		
+		NodeSSS no = null;
+		MoveEnumerator me = new MoveEnumerator(); 
+		// on récupère la liste des mouvement possible pour le joueur
+		Set<Move> listM = me.getPossibleMoves(n.getFather().getModel());
+		Iterator<Move> i=listM.iterator();
+		
+		// tant qu'il y a de mouvements possibles
+		int j = 0;
+		Move m;
+		while(i.hasNext()){
+			System.out.print(j++ +" - ");
+			m = i.next();
+			if (m.equals(n.getMove()) && i.hasNext()){
+				NodeSSS node = new NodeSSS(n.getFather(), i.next());
+				no = node;
+				break;
+			}
+		}
+		
+		return no;
+		
+		/*System.err.println("DEBUT");
 		MoveEnumerator me = new MoveEnumerator(); 
 		// on récupère la liste des mouvement possible pour le joueur
 		Set<Move> listM = me.getPossibleMoves(n.getFather().getModel());
@@ -152,13 +181,28 @@ public class SSS implements PlayerAlgo {
 		Move m;
 		while(i.hasNext()){
 			m = i.next();
-			if (m.equals(n.getMove()) && i.hasNext()){
-				NodeSSS node = new NodeSSS(n.getFather(), i.next());
-				return node;
+			if (m.equals(n.getMove())){
+				System.err.println("move " +m);
+				if(i.hasNext()){
+					System.err.println("True");
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					NodeSSS node = new NodeSSS(n.getFather(), i.next());
+					return node;
+				}
 			}
 		}
-		System.err.println("FIN");
-		return null;
+		System.err.println("End");
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 	}
 
 	/**
