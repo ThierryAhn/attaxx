@@ -6,7 +6,7 @@ import java.util.List;
 import model.algorithm.PlayerAlgo;
 
 
-public class AttaxxModel implements Cloneable{
+public class AttaxxModel implements Cloneable, Comparable<AttaxxModel>{
 
 	private Cell[][] cells;
 	private String currentPlayer;
@@ -290,5 +290,10 @@ public class AttaxxModel implements Cloneable{
 		}
 		md.nextPlayer();
 		return md;
+	}
+
+	@Override
+	public int compareTo(AttaxxModel o) {
+		return this.equals(o) ? 0 : 1;
 	}
 }

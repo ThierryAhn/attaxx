@@ -7,6 +7,7 @@ import model.AttaxxModel;
 import model.algorithm.AlphaBetaNegaMax;
 import model.algorithm.NegaMax;
 import model.algorithm.PlayerAlgo;
+import model.algorithm.SSS;
 
 /**
  * The view of the game Attaxx
@@ -36,7 +37,7 @@ public class Attaxx {
 	 * Creates a Model
 	 */
 	private void createModel() {
-		algo = new AlphaBetaNegaMax(3);
+		algo = new SSS(1);
 		model = new AttaxxModel(7, 7, algo);
 	}
 
