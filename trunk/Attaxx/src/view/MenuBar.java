@@ -1,5 +1,6 @@
 package view;
 
+import javax.swing.Box;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
@@ -22,6 +23,8 @@ public class MenuBar extends JMenuBar{
 		menuParam = new JMenu("Paramètres");
 		menuNewGame = new JMenu("Nouveau jeu");
 		
+		
+		this.add(Box.createHorizontalGlue()); 
 		this.add(menuParam);
 		this.add(menuNewGame);
 	}
