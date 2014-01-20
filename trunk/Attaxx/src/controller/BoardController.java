@@ -14,7 +14,7 @@ import model.Player;
 
 public class BoardController extends MouseAdapter {
 
-	public void mouseClicked(MouseEvent e) {
+	public void mousePressed(MouseEvent e) {
 		JTable table = (JTable) e.getSource();
 		BoardModel model = (BoardModel) table.getModel();
 		if (model.getValueAt(table.rowAtPoint(e.getPoint()),
@@ -52,7 +52,7 @@ public class BoardController extends MouseAdapter {
 								//								e1.printStackTrace();
 								//							}
 
-								model.getBoard().playMove(model.getBoard().getAlgo().getNextMove(model.getBoard()));
+								
 							}
 						}
 					}
@@ -60,5 +60,14 @@ public class BoardController extends MouseAdapter {
 			}
 			table.repaint();
 		}
+	}
+	
+	public void mouseReleased(MouseEvent e) {
+		JTable table = (JTable) e.getSource();
+		BoardModel model = (BoardModel) table.getModel();
+		if (model.getBoard().getCurrentPlayer().equals(Player.BLUE)) {
+			model.getBoard().playMove(model.getBoard().getAlgo().getNextMove(model.getBoard()));
+		}
+		table.repaint();
 	}
 }

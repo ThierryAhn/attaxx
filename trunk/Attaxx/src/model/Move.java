@@ -29,20 +29,45 @@ public class Move implements Comparable<Move> {
 		return root;
 	}
 
-	public Cell getTarget() {
-		return target;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((player == null) ? 0 : player.hashCode());
+		result = prime * result + ((root == null) ? 0 : root.hashCode());
+		result = prime * result + ((target == null) ? 0 : target.hashCode());
+		return result;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof Move){
-			Move m = (Move)obj;
-			return m.getRoot().equals(root) 
-					&& m.getTarget().equals(target)
-					&& m.getPlayer().equals(player);
-			
-		}
-		return false;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Move other = (Move) obj;
+		if (player == null) {
+			if (other.player != null)
+				return false;
+		} else if (!player.equals(other.player))
+			return false;
+		if (root == null) {
+			if (other.root != null)
+				return false;
+		} else if (!root.equals(other.root))
+			return false;
+		if (target == null) {
+			if (other.target != null)
+				return false;
+		} else if (!target.equals(other.target))
+			return false;
+		return true;
+	}
+
+	public Cell getTarget() {
+		return target;
 	}
 	
 	@Override
