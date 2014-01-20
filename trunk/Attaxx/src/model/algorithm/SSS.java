@@ -47,7 +47,7 @@ public class SSS implements PlayerAlgo {
 		listG.add(root);
 		// tant que la racine n'est pas résolue
 		while(!root.isResolved()){
-			System.out.println(listG);
+			System.out.println("G=" + listG);
 			// on extrait le premier noeud de la liste
 			NodeSSS n = extractFirst();
 			// si le noeud est vivant
@@ -118,13 +118,15 @@ public class SSS implements PlayerAlgo {
 						if (nFather.getDepth() == 0){
 							root.setResolved();
 							root.setMove(n.getMove());
+							listG.clear();
+							listG.add(nFather);
 							break;
 						}
 					}
 				}
 			}
 		}
-		System.err.println(listG);
+		System.out.println("G=" + listG);
 		System.out.println(root.getMove());
 		return root.getMove();
 	}
@@ -269,7 +271,7 @@ public class SSS implements PlayerAlgo {
 			if (comp != 0){
 				if (this.value < o.getValue()) 
 					comp=1;
-				else
+				else if (this.value > o.getValue())
 					comp=-1;
 			}
 			return comp;
