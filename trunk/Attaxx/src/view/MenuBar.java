@@ -14,6 +14,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
+import model.AttaxxModel;
 import model.algorithm.AlphaBeta;
 import model.algorithm.AlphaBetaNegaMax;
 import model.algorithm.MiniMax;
@@ -40,14 +41,17 @@ public class MenuBar extends JMenuBar{
 	private ButtonGroup groupLevel;
 	private ButtonGroup groupAlgo;
 	
-	private JRadioButtonMenuItem rbMenuItemLevel;
+	private JRadioButtonMenuItem[] rbMenuItemLevel = new JRadioButtonMenuItem[3];
 	private JRadioButtonMenuItem rbMenuItemAlgo;
 	
 	
 	private PlayerAlgo algo;
+	private AttaxxModel model;
 	
 	
 	public MenuBar(Attaxx ataxx){
+		model = new AttaxxModel(7, 7, new MiniMax(1));
+		
 		createMenu();
 		placeComponents();
 		createController(ataxx);
@@ -66,44 +70,44 @@ public class MenuBar extends JMenuBar{
 		subMenuItemLevel = new JMenu("Level");
 		
 		groupLevel = new ButtonGroup();
-		rbMenuItemLevel = new JRadioButtonMenuItem("Facile");
-		rbMenuItemLevel.addItemListener(new ItemListener(){
+		rbMenuItemLevel[0] = new JRadioButtonMenuItem("Facile");
+		rbMenuItemLevel[0].addItemListener(new ItemListener(){
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				choixLevel = 1;
-				rbMenuItemLevel.setSelected(true);
+				//rbMenuItemLevel[0].setSelected(true);
 			}
 			
 		});
-		groupLevel.add(rbMenuItemLevel);
+		groupLevel.add(rbMenuItemLevel[0]);
 		
-		subMenuItemLevel.add(rbMenuItemLevel);
+		subMenuItemLevel.add(rbMenuItemLevel[0]);
 		
-		rbMenuItemLevel = new JRadioButtonMenuItem("Normal");
-		rbMenuItemLevel.addItemListener(new ItemListener(){
+		rbMenuItemLevel[1] = new JRadioButtonMenuItem("Normal");
+		rbMenuItemLevel[1].addItemListener(new ItemListener(){
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				choixLevel = 2;
-				rbMenuItemLevel.setSelected(true);
+				//rbMenuItemLevel[1].setSelected(true);
 			}
 			
 		});
-		groupLevel.add(rbMenuItemLevel);
+		groupLevel.add(rbMenuItemLevel[1]);
 		
-		subMenuItemLevel.add(rbMenuItemLevel);
+		subMenuItemLevel.add(rbMenuItemLevel[1]);
 		
-		rbMenuItemLevel = new JRadioButtonMenuItem("Difficile");
-		rbMenuItemLevel.addItemListener(new ItemListener(){
+		rbMenuItemLevel[2] = new JRadioButtonMenuItem("Difficile");
+		rbMenuItemLevel[2].addItemListener(new ItemListener(){
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				choixLevel = 3;
-				rbMenuItemLevel.setSelected(true);
+				//rbMenuItemLevel[2].setSelected(true);
 			}
 			
 		});
-		groupLevel.add(rbMenuItemLevel);
+		groupLevel.add(rbMenuItemLevel[2]);
 		
-		subMenuItemLevel.add(rbMenuItemLevel);
+		subMenuItemLevel.add(rbMenuItemLevel[2]);
 		
 		subMenuItemLevel.setIcon(new ImageIcon(getClass().getResource("/data/images/level.png")));
 		menuParam.add(subMenuItemLevel);
@@ -117,7 +121,11 @@ public class MenuBar extends JMenuBar{
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				algo = new MiniMax(choixLevel);
-				rbMenuItemAlgo.setSelected(true);
+				model = new AttaxxModel(7, 7, algo);
+				
+				rbMenuItemLevel[choixLevel].setSelected(true);
+				
+				
 			}
 			
 		});
@@ -129,7 +137,11 @@ public class MenuBar extends JMenuBar{
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				algo = new AlphaBeta(choixLevel);
-				rbMenuItemAlgo.setSelected(true);
+				model = new AttaxxModel(7, 7, algo);
+				
+				rbMenuItemLevel[choixLevel].setSelected(true);
+				
+				
 			}
 			
 		});
@@ -142,7 +154,11 @@ public class MenuBar extends JMenuBar{
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				algo = new NegaMax(choixLevel);
-				rbMenuItemAlgo.setSelected(true);
+				model = new AttaxxModel(7, 7, algo);
+				
+				rbMenuItemLevel[choixLevel].setSelected(true);
+				
+				
 			}
 			
 		});
@@ -154,7 +170,11 @@ public class MenuBar extends JMenuBar{
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				algo = new AlphaBetaNegaMax(choixLevel);
-				rbMenuItemAlgo.setSelected(true);
+				model = new AttaxxModel(7, 7, algo);
+				
+				rbMenuItemLevel[choixLevel].setSelected(true);
+				
+				
 			}
 			
 		});
@@ -166,7 +186,11 @@ public class MenuBar extends JMenuBar{
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				algo = new SSS(choixLevel);
-				rbMenuItemAlgo.setSelected(true);
+				model = new AttaxxModel(7, 7, algo);
+				
+				rbMenuItemLevel[choixLevel].setSelected(true);
+				
+				
 			}
 			
 		});
@@ -214,11 +238,12 @@ public class MenuBar extends JMenuBar{
 
 			@Override
 			public void menuSelected(MenuEvent arg0) {
-				
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
+						
+						new Attaxx(model).display();
 						System.out.println("level : "+choixLevel);
-						new Attaxx(algo).display();
+						
 						
 					}
 				});
