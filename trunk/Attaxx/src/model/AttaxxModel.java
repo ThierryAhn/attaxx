@@ -245,7 +245,9 @@ public class AttaxxModel implements Cloneable, Comparable<AttaxxModel>{
 	}
 
 	public int heuristic(){
-		return getCells(PlayerAlgo.MAX).size() - getCells(PlayerAlgo.MIN).size() ;
+//		if (getCurrentPlayer().equals(PlayerAlgo.MIN))
+//			return getCells(PlayerAlgo.MAX).size() - getCells(PlayerAlgo.MIN).size();
+		return getCells(PlayerAlgo.MIN).size() - getCells(PlayerAlgo.MAX).size();
 	}
 
 	public AttaxxModel simulateMove(Move m) {
