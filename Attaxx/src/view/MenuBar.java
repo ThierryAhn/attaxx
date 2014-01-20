@@ -14,9 +14,16 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
+import model.algorithm.AlphaBeta;
+import model.algorithm.AlphaBetaNegaMax;
+import model.algorithm.MiniMax;
+import model.algorithm.NegaMax;
 import model.algorithm.PlayerAlgo;
+import model.algorithm.SSS;
 
 public class MenuBar extends JMenuBar{
+	
+	private int choixLevel = 1;
 	
 	/**
 	 * 
@@ -52,7 +59,6 @@ public class MenuBar extends JMenuBar{
 	 */
 	private void createMenu(){
 		
-		
 		// menu parametres
 		menuParam = new JMenu("Paramètres");
 		menuParam.setIcon(new ImageIcon(getClass().getResource("/data/images/param.png")));
@@ -62,17 +68,38 @@ public class MenuBar extends JMenuBar{
 		
 		groupLevel = new ButtonGroup();
 		JRadioButtonMenuItem rbMenuItem = new JRadioButtonMenuItem("Facile");
+		rbMenuItem.addItemListener(new ItemListener(){
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				choixLevel = 1;
+			}
+			
+		});
 		groupLevel.add(rbMenuItem);
 		
 		subMenuItemLevel.add(rbMenuItem);
 		
 		rbMenuItem = new JRadioButtonMenuItem("Normal");
 		rbMenuItem.setSelected(true);
+		rbMenuItem.addItemListener(new ItemListener(){
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				choixLevel = 2;
+			}
+			
+		});
 		groupLevel.add(rbMenuItem);
 		
 		subMenuItemLevel.add(rbMenuItem);
 		
 		rbMenuItem = new JRadioButtonMenuItem("Difficile");
+		rbMenuItem.addItemListener(new ItemListener(){
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				choixLevel = 3;
+			}
+			
+		});
 		groupLevel.add(rbMenuItem);
 		
 		subMenuItemLevel.add(rbMenuItem);
@@ -86,25 +113,58 @@ public class MenuBar extends JMenuBar{
 		groupAlgo = new ButtonGroup();
 		rbMenuItem = new JRadioButtonMenuItem("Minimax");
 		rbMenuItem.setSelected(true);
-		rbMenuItem.addItemListener(new Listener());
+		rbMenuItem.addItemListener(new ItemListener(){
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				algo = new MiniMax(choixLevel);
+			}
+			
+		});
 		groupAlgo.add(rbMenuItem);
 		subMenuItemAlgo.add(rbMenuItem);
 		
 		rbMenuItem = new JRadioButtonMenuItem("AlphaBeta");
-		rbMenuItem.addItemListener(new Listener());
+		rbMenuItem.addItemListener(new ItemListener(){
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				algo = new AlphaBeta(choixLevel);
+			}
+			
+		});
 		
 		groupAlgo.add(rbMenuItem);
 		subMenuItemAlgo.add(rbMenuItem);
 		
 		rbMenuItem = new JRadioButtonMenuItem("Negamax");
+		rbMenuItem.addItemListener(new ItemListener(){
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				algo = new NegaMax(choixLevel);
+			}
+			
+		});
 		groupAlgo.add(rbMenuItem);
 		subMenuItemAlgo.add(rbMenuItem);
 		
 		rbMenuItem = new JRadioButtonMenuItem("AlphaBetaNegaMax");
+		rbMenuItem.addItemListener(new ItemListener(){
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				algo = new AlphaBetaNegaMax(choixLevel);
+			}
+			
+		});
 		groupAlgo.add(rbMenuItem);
 		subMenuItemAlgo.add(rbMenuItem);
 		
 		rbMenuItem = new JRadioButtonMenuItem("SSS");
+		rbMenuItem.addItemListener(new ItemListener(){
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				algo = new SSS(choixLevel);
+			}
+			
+		});
 		groupAlgo.add(rbMenuItem);
 		subMenuItemAlgo.add(rbMenuItem);
 		
@@ -150,30 +210,19 @@ public class MenuBar extends JMenuBar{
 
 			@Override
 			public void menuSelected(MenuEvent arg0) {
-				ataxx.close();
+				
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
-						new Attaxx().display();
+						System.out.println("level : "+choixLevel);
+						new Attaxx(algo).display();
+						
 					}
 				});
+				ataxx.close();
 			}
 			
 		});
 		
-		
-		// param
-		
-	}
-	
-	private class Listener implements ItemListener{
-
-		@Override
-		public void itemStateChanged(ItemEvent e) {
-			// TODO Auto-generated method stub
-			if(e.getStateChange() == ItemEvent.SELECTED){
-				System.out.println(e.getSource());
-			}
-		}
 		
 	}
 	
