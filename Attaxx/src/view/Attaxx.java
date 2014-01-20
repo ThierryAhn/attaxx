@@ -5,8 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import model.AttaxxModel;
+import model.algorithm.MiniMax;
 import model.algorithm.PlayerAlgo;
-import model.algorithm.SSS;
 
 /**
  * The view of the game Attaxx
@@ -94,7 +94,7 @@ public class Attaxx {
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				new Attaxx(new SSS(1)).display();
+				new Attaxx(new MiniMax(1)).display();
 			}
 		});
 	}
