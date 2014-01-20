@@ -54,19 +54,7 @@ public class MiniMax implements PlayerAlgo{
 				bestMove = m;
 			}
 		}
-		for(Move m : listM){
-			System.out.println(m);
-		}
-		
-		System.out.println(listM.size());
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		// retourne de meilleur mouvement
-		System.out.println(bestMove);
 		return bestMove;
 	}
 
