@@ -1,7 +1,6 @@
 package model.algorithm;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -59,12 +58,10 @@ public class SSS implements PlayerAlgo {
 				}else{
 					MoveEnumerator me = new MoveEnumerator(); 
 					// on récupère la liste des mouvement possibles
-					TreeSet<Move> listM = me.getPossibleMoves(n.getModel());
-					Iterator<Move> i=listM.iterator();
+					List<Move> listM = me.getPossibleMoves(n.getModel());
 					if (n.getModel().getCurrentPlayer().equals(MAX)){
 						// prend tous les fils
-						while(i.hasNext()){
-							Move m = i.next();
+						for(Move m : listM){
 							NodeSSS nodeSon = new NodeSSS(n, m);
 							// on ajoute le noeud à la liste
 							listG.add(nodeSon);
@@ -84,10 +81,8 @@ public class SSS implements PlayerAlgo {
 					nFather.setValue(n.getValue());
 					listG.add(nFather);
 					// on supprime tous les noeuds successeurs du père de n
-					Iterator<NodeSSS> i = listG.iterator();
 					List<NodeSSS> liN = new ArrayList<NodeSSS>();
-					while(i.hasNext()){
-						NodeSSS node = i.next();
+					for(NodeSSS node: listG){
 						if(node.getFather().equals(nFather))
 							liN.add(node);
 					}
@@ -149,14 +144,12 @@ public class SSS implements PlayerAlgo {
 	private NodeSSS getRightBrother(NodeSSS n){
 		MoveEnumerator me = new MoveEnumerator(); 
 		// on récupère la liste des mouvement possible pour le joueur
-		TreeSet<Move> listM = me.getPossibleMoves(n.getFather().getModel());
-		List<Move> list = new ArrayList<Move>(listM);
+		List<Move> listM = me.getPossibleMoves(n.getFather().getModel());
 		NodeSSS node = null;
-
-		if(list.contains(n.getMove())){
-			int index = list.indexOf(node);
-			if(index < list.size() && index > 0){
-				Move m = list.get(list.indexOf(node)+1);
+		if(listM.contains(n.getMove())){
+			int index = listM.indexOf(node);
+			if(index < listM.size() && index > 0){
+				Move m = listM.get(listM.indexOf(node)+1);
 				node = new NodeSSS(n.getFather(),m);
 			}
 		}

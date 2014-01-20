@@ -1,13 +1,11 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.TreeSet;
 
 public class MoveEnumerator {
 
-	public TreeSet<Move> getPossibleMoves(AttaxxModel model){
+	public List<Move> getPossibleMoves(AttaxxModel model){
 		List<Move> possibleMoves = new ArrayList<Move>();
 		String player = model.getCurrentPlayer();
 
@@ -31,8 +29,7 @@ public class MoveEnumerator {
 
 			}
 		}
-
-		return new TreeSet<>(possibleMoves);
+		return possibleMoves;
 	}
 
 }
