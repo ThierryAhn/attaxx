@@ -37,12 +37,11 @@ public class MenuBar extends JMenuBar{
 	private JMenu subMenuItemLevel;
 	private JMenu subMenuItemAlgo;
 	
-	
-	
-	
 	private ButtonGroup groupLevel;
 	private ButtonGroup groupAlgo;
 	
+	private JRadioButtonMenuItem rbMenuItemLevel;
+	private JRadioButtonMenuItem rbMenuItemAlgo;
 	
 	
 	private PlayerAlgo algo;
@@ -67,42 +66,44 @@ public class MenuBar extends JMenuBar{
 		subMenuItemLevel = new JMenu("Level");
 		
 		groupLevel = new ButtonGroup();
-		JRadioButtonMenuItem rbMenuItem = new JRadioButtonMenuItem("Facile");
-		rbMenuItem.addItemListener(new ItemListener(){
+		rbMenuItemLevel = new JRadioButtonMenuItem("Facile");
+		rbMenuItemLevel.addItemListener(new ItemListener(){
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				choixLevel = 1;
+				rbMenuItemLevel.setSelected(true);
 			}
 			
 		});
-		groupLevel.add(rbMenuItem);
+		groupLevel.add(rbMenuItemLevel);
 		
-		subMenuItemLevel.add(rbMenuItem);
+		subMenuItemLevel.add(rbMenuItemLevel);
 		
-		rbMenuItem = new JRadioButtonMenuItem("Normal");
-		rbMenuItem.setSelected(true);
-		rbMenuItem.addItemListener(new ItemListener(){
+		rbMenuItemLevel = new JRadioButtonMenuItem("Normal");
+		rbMenuItemLevel.addItemListener(new ItemListener(){
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				choixLevel = 2;
+				rbMenuItemLevel.setSelected(true);
 			}
 			
 		});
-		groupLevel.add(rbMenuItem);
+		groupLevel.add(rbMenuItemLevel);
 		
-		subMenuItemLevel.add(rbMenuItem);
+		subMenuItemLevel.add(rbMenuItemLevel);
 		
-		rbMenuItem = new JRadioButtonMenuItem("Difficile");
-		rbMenuItem.addItemListener(new ItemListener(){
+		rbMenuItemLevel = new JRadioButtonMenuItem("Difficile");
+		rbMenuItemLevel.addItemListener(new ItemListener(){
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				choixLevel = 3;
+				rbMenuItemLevel.setSelected(true);
 			}
 			
 		});
-		groupLevel.add(rbMenuItem);
+		groupLevel.add(rbMenuItemLevel);
 		
-		subMenuItemLevel.add(rbMenuItem);
+		subMenuItemLevel.add(rbMenuItemLevel);
 		
 		subMenuItemLevel.setIcon(new ImageIcon(getClass().getResource("/data/images/level.png")));
 		menuParam.add(subMenuItemLevel);
@@ -111,67 +112,70 @@ public class MenuBar extends JMenuBar{
 		subMenuItemAlgo = new JMenu("Algorithme");
 		
 		groupAlgo = new ButtonGroup();
-		rbMenuItem = new JRadioButtonMenuItem("Minimax");
-		rbMenuItem.setSelected(true);
-		rbMenuItem.addItemListener(new ItemListener(){
+		rbMenuItemAlgo = new JRadioButtonMenuItem("Minimax");
+		rbMenuItemAlgo.addItemListener(new ItemListener(){
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				algo = new MiniMax(choixLevel);
+				rbMenuItemAlgo.setSelected(true);
 			}
 			
 		});
-		groupAlgo.add(rbMenuItem);
-		subMenuItemAlgo.add(rbMenuItem);
+		groupAlgo.add(rbMenuItemAlgo);
+		subMenuItemAlgo.add(rbMenuItemAlgo);
 		
-		rbMenuItem = new JRadioButtonMenuItem("AlphaBeta");
-		rbMenuItem.addItemListener(new ItemListener(){
+		rbMenuItemAlgo = new JRadioButtonMenuItem("AlphaBeta");
+		rbMenuItemAlgo.addItemListener(new ItemListener(){
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				algo = new AlphaBeta(choixLevel);
+				rbMenuItemAlgo.setSelected(true);
 			}
 			
 		});
 		
-		groupAlgo.add(rbMenuItem);
-		subMenuItemAlgo.add(rbMenuItem);
+		groupAlgo.add(rbMenuItemAlgo);
+		subMenuItemAlgo.add(rbMenuItemAlgo);
 		
-		rbMenuItem = new JRadioButtonMenuItem("Negamax");
-		rbMenuItem.addItemListener(new ItemListener(){
+		rbMenuItemAlgo = new JRadioButtonMenuItem("Negamax");
+		rbMenuItemAlgo.addItemListener(new ItemListener(){
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				algo = new NegaMax(choixLevel);
+				rbMenuItemAlgo.setSelected(true);
 			}
 			
 		});
-		groupAlgo.add(rbMenuItem);
-		subMenuItemAlgo.add(rbMenuItem);
+		groupAlgo.add(rbMenuItemAlgo);
+		subMenuItemAlgo.add(rbMenuItemAlgo);
 		
-		rbMenuItem = new JRadioButtonMenuItem("AlphaBetaNegaMax");
-		rbMenuItem.addItemListener(new ItemListener(){
+		rbMenuItemAlgo = new JRadioButtonMenuItem("AlphaBetaNegaMax");
+		rbMenuItemAlgo.addItemListener(new ItemListener(){
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				algo = new AlphaBetaNegaMax(choixLevel);
+				rbMenuItemAlgo.setSelected(true);
 			}
 			
 		});
-		groupAlgo.add(rbMenuItem);
-		subMenuItemAlgo.add(rbMenuItem);
+		groupAlgo.add(rbMenuItemAlgo);
+		subMenuItemAlgo.add(rbMenuItemAlgo);
 		
-		rbMenuItem = new JRadioButtonMenuItem("SSS*");
-		rbMenuItem.addItemListener(new ItemListener(){
+		rbMenuItemAlgo = new JRadioButtonMenuItem("SSS*");
+		rbMenuItemAlgo.addItemListener(new ItemListener(){
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				algo = new SSS(choixLevel);
+				rbMenuItemAlgo.setSelected(true);
 			}
 			
 		});
-		groupAlgo.add(rbMenuItem);
-		subMenuItemAlgo.add(rbMenuItem);
+		groupAlgo.add(rbMenuItemAlgo);
+		subMenuItemAlgo.add(rbMenuItemAlgo);
 		
 		
 		subMenuItemAlgo.setIcon(new ImageIcon(getClass().getResource("/data/images/logo.png")));
 		menuParam.add(subMenuItemAlgo);
-		
 		
 		// menu aide
 		menuHelp = new JMenu("Aide");
