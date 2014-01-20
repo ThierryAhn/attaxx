@@ -21,13 +21,13 @@ public class Attaxx {
 	private MenuBar menuBar;
 
 	private AttaxxModel model;
-	//private PlayerAlgo algo;
+	//private PlayerAlgo algor;
 
 	/**
 	 * Constructor
 	 */
-	public Attaxx(PlayerAlgo algo) {
-		createModel(algo);
+	public Attaxx(AttaxxModel model) {
+		createModel(model);
 		createView();
 		placeComponents();
 		createController();
@@ -36,9 +36,10 @@ public class Attaxx {
 	/**
 	 * Creates a Model
 	 */
-	private void createModel(PlayerAlgo algo) {
-		//algo = new MiniMax(3);
-		model = new AttaxxModel(7, 7, algo);
+	private void createModel(AttaxxModel model) {
+		this.model = model;
+		//algor = new MiniMax(3);
+		//this.model = new AttaxxModel(7, 7, algor);
 	}
 
 	/**
@@ -94,7 +95,7 @@ public class Attaxx {
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				new Attaxx(new MiniMax(1)).display();
+				new Attaxx(new AttaxxModel(7, 7, new MiniMax(1))).display();
 			}
 		});
 	}
