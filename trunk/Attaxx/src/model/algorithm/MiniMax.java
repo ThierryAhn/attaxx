@@ -1,7 +1,6 @@
 package model.algorithm;
 
-import java.util.Iterator;
-import java.util.TreeSet;
+import java.util.List;
 
 import model.AttaxxModel;
 import model.Move;
@@ -38,14 +37,10 @@ public class MiniMax implements PlayerAlgo{
 		//List des mouvement possibles
 		MoveEnumerator moveEnum = new MoveEnumerator();
 		// List des movements possibles
-		TreeSet<Move> listM = moveEnum.getPossibleMoves(model);
-		
-		Iterator<Move> i=listM.iterator();
+		List<Move> listM = moveEnum.getPossibleMoves(model);
 		// tant qu'il y a des mouvements possibles
-		while(i.hasNext()){
-			// On recupère le mouvement
-			Move  m = i.next();
-			// on simule de mouvement
+		for(Move m : listM){
+			// On recupère le mouvement et on le simule
 			AttaxxModel md = model.simulateMove(m);
 			int newVal = miniMax(1, md);
 			// Max des heuristiques
@@ -70,14 +65,11 @@ public class MiniMax implements PlayerAlgo{
 		}
 
 		MoveEnumerator mv = new MoveEnumerator();
-		TreeSet<Move> listM = mv.getPossibleMoves(model);
-		Iterator<Move> i=listM.iterator();
-
+		List<Move> listM = mv.getPossibleMoves(model);
 		// si c'est Max
 		if (model.getCurrentPlayer().equals(MAX)){
 			int val = MINUS_INFINITY;
-			while (i.hasNext()) {
-				Move  m = i.next();
+			for(Move m : listM){
 				// on simule de mouvement
 				AttaxxModel md = model.simulateMove(m);
 				val = Math.max(val, miniMax(dept + 1,md));
@@ -86,8 +78,7 @@ public class MiniMax implements PlayerAlgo{
 		}
 		// si c'est Min
 		int val = PLUS_INFINITY;
-		while (i.hasNext()) {
-			Move  m = i.next();
+		for(Move m : listM){
 			// on simule de mouvement
 			AttaxxModel md = model.simulateMove(m);
 			val = Math.min(val, miniMax(dept + 1,md));

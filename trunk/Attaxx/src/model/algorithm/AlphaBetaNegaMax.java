@@ -1,7 +1,6 @@
 package model.algorithm;
 
-import java.util.Iterator;
-import java.util.TreeSet;
+import java.util.List;
 
 import model.AttaxxModel;
 import model.Move;
@@ -45,11 +44,9 @@ public class AlphaBetaNegaMax implements PlayerAlgo {
 
 		MoveEnumerator me = new MoveEnumerator(); 
 		// on récupère la liste des mouvement possible pour le joueur
-		TreeSet<Move> listM = me.getPossibleMoves(model);
-		Iterator<Move> i=listM.iterator();
+		List<Move> listM = me.getPossibleMoves(model);
 		// tant qu'il y a de mouvements possibles
-		while(i.hasNext()){
-			Move m =  i.next();
+		for(Move m : listM){
 			int newVal;
 			Node n = new Node(model, m);
 			// on calcule la valeur Alpha-Beta sur les noeuds fils
@@ -78,11 +75,10 @@ public class AlphaBetaNegaMax implements PlayerAlgo {
 		}
 
 		MoveEnumerator me = new MoveEnumerator(); 
-		TreeSet<Move> listM = me.getPossibleMoves(node.getModel());
-		Iterator<Move> i=listM.iterator();
+		List<Move> listM = me.getPossibleMoves(node.getModel());
 		int val;
-		while(i.hasNext()){
-			Node n = new Node(node.getModel(), i.next());
+		for(Move m : listM){
+			Node n = new Node(node.getModel(), m);
 			val = -1*AlphaBeta_NegaMax(depth+1, n, 
 					node.getAlpha(), node.getBeta());
 			// On prend le maximum pour son alpha
