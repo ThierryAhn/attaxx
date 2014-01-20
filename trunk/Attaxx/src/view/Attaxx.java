@@ -47,7 +47,7 @@ public class Attaxx {
 	private void createView() {
 		frame = new JFrame("Attaxx");
 		board = new GameBoard(model);
-		menuBar = new MenuBar();
+		menuBar = new MenuBar(this);
 	}
 
 	/**
@@ -55,6 +55,7 @@ public class Attaxx {
 	 */
 	private void placeComponents() {
 		frame.add(board);
+		frame.setJMenuBar(menuBar);
 	}
 
 	/**
@@ -70,8 +71,14 @@ public class Attaxx {
 	public void display() {
 		frame.pack();
 		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-		frame.setJMenuBar(menuBar);
+		frame.setVisible(true);	
+	}
+	
+	/**
+	 * Close the application
+	 */
+	public void close() {
+		frame.dispose();
 	}
 
 	/**
