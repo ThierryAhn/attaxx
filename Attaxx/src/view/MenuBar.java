@@ -157,7 +157,7 @@ public class MenuBar extends JMenuBar{
 		groupAlgo.add(rbMenuItem);
 		subMenuItemAlgo.add(rbMenuItem);
 		
-		rbMenuItem = new JRadioButtonMenuItem("SSS");
+		rbMenuItem = new JRadioButtonMenuItem("SSS*");
 		rbMenuItem.addItemListener(new ItemListener(){
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
