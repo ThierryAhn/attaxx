@@ -75,6 +75,10 @@ public class MenuBar extends JMenuBar{
 		groupAlgo.add(rbMenuItem);
 		menuItemAlgo.add(rbMenuItem);
 		
+		rbMenuItem = new JRadioButtonMenuItem("Negamax");
+		groupAlgo.add(rbMenuItem);
+		menuItemAlgo.add(rbMenuItem);
+		
 		rbMenuItem = new JRadioButtonMenuItem("AlphaBetaNegaMax");
 		groupAlgo.add(rbMenuItem);
 		menuItemAlgo.add(rbMenuItem);
