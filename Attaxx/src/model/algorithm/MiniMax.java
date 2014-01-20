@@ -39,6 +39,7 @@ public class MiniMax implements PlayerAlgo{
 		MoveEnumerator moveEnum = new MoveEnumerator();
 		// List des movements possibles
 		TreeSet<Move> listM = moveEnum.getPossibleMoves(model);
+		
 		Iterator<Move> i=listM.iterator();
 		// tant qu'il y a des mouvements possibles
 		while(i.hasNext()){
@@ -53,9 +54,17 @@ public class MiniMax implements PlayerAlgo{
 				bestMove = m;
 			}
 		}
-
+		for(Move m : listM){
+			System.out.println(m);
+		}
+		
 		System.out.println(listM.size());
-
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// retourne de meilleur mouvement
 		System.out.println(bestMove);
 		return bestMove;

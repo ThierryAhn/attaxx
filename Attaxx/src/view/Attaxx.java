@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import model.AttaxxModel;
+import model.algorithm.MiniMax;
 import model.algorithm.PlayerAlgo;
 import model.algorithm.SSS;
 
@@ -35,7 +36,7 @@ public class Attaxx {
 	 * Creates a Model
 	 */
 	private void createModel() {
-		algo = new SSS(3);
+		algo = new MiniMax(3);
 		model = new AttaxxModel(7, 7, algo);
 	}
 
