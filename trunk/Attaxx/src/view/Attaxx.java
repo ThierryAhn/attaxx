@@ -6,7 +6,6 @@ import javax.swing.SwingUtilities;
 
 import model.AttaxxModel;
 import model.algorithm.MiniMax;
-import model.algorithm.PlayerAlgo;
 
 /**
  * The view of the game Attaxx
