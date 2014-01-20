@@ -18,6 +18,7 @@ public class Attaxx {
 
 	private JFrame frame;
 	private GameBoard board;
+	private MenuBar menuBar;
 
 	private AttaxxModel model;
 	private PlayerAlgo algo;
@@ -46,7 +47,7 @@ public class Attaxx {
 	private void createView() {
 		frame = new JFrame("Attaxx");
 		board = new GameBoard(model);
-
+		menuBar = new MenuBar();
 	}
 
 	/**
@@ -70,6 +71,7 @@ public class Attaxx {
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+		frame.setJMenuBar(menuBar);
 	}
 
 	/**
