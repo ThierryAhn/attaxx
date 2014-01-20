@@ -93,6 +93,7 @@ public class MiniMax implements PlayerAlgo{
 				// on simule de mouvement
 				AttaxxModel md = model.simulateMove(m);
 				val = Math.max(val, miniMax(dept + 1,md));
+				
 			}
 			return val;
 		}
