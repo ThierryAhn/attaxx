@@ -43,7 +43,6 @@ public class SSS implements PlayerAlgo {
 	}
 
 	private Move sssAlgo(AttaxxModel model){
-		Move bestMove = null;
 		NodeSSS root = new NodeSSS(model,PLUS_INFINITY);
 		listG.add(root);
 		// tant que la racine n'est pas résolue
