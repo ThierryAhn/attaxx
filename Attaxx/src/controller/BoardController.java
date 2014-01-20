@@ -8,7 +8,6 @@ import javax.swing.JTable;
 import model.BoardModel;
 import model.Cell;
 import model.Move;
-import model.MoveEnumerator;
 import model.Player;
 
 
@@ -45,14 +44,6 @@ public class BoardController extends MouseAdapter {
 							Move m = new Move(model.getBoard().getCurrentPlayer(), model.getBoard().getSelected(), cell);
 							if (model.getBoard().isLegal(m)){
 								model.getBoard().playMove(m);
-//								System.out.println("Red just finished playing");
-								//							try {
-								//								Thread.sleep(1000);
-								//							} catch (InterruptedException e1) {
-								//								e1.printStackTrace();
-								//							}
-
-								
 							}
 						}
 					}
@@ -61,11 +52,16 @@ public class BoardController extends MouseAdapter {
 			table.repaint();
 		}
 	}
-	
+
 	public void mouseReleased(MouseEvent e) {
 		JTable table = (JTable) e.getSource();
 		BoardModel model = (BoardModel) table.getModel();
 		if (model.getBoard().getCurrentPlayer().equals(Player.BLUE)) {
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
 			model.getBoard().playMove(model.getBoard().getAlgo().getNextMove(model.getBoard()));
 		}
 		table.repaint();
