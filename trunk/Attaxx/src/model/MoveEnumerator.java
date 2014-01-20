@@ -1,13 +1,12 @@
 package model;
 
 import java.util.List;
-import java.util.Set;
 import java.util.TreeSet;
 
 public class MoveEnumerator {
 
-	public Set<Move> getPossibleMoves(AttaxxModel model){
-		Set<Move> possibleMoves = new TreeSet<Move>();
+	public TreeSet<Move> getPossibleMoves(AttaxxModel model){
+		TreeSet<Move> possibleMoves = new TreeSet<Move>();
 		String player = model.getCurrentPlayer();
 
 		for(Cell root : model.getCells(player)){

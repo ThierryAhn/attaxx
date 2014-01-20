@@ -1,7 +1,7 @@
 package model.algorithm;
 
 import java.util.Iterator;
-import java.util.Set;
+import java.util.TreeSet;
 
 import model.AttaxxModel;
 import model.Move;
@@ -38,7 +38,7 @@ public class MiniMax implements PlayerAlgo{
 		//List des mouvement possibles
 		MoveEnumerator moveEnum = new MoveEnumerator();
 		// List des movements possibles
-		Set<Move> listM = moveEnum.getPossibleMoves(model);
+		TreeSet<Move> listM = moveEnum.getPossibleMoves(model);
 		Iterator<Move> i=listM.iterator();
 		// tant qu'il y a des mouvements possibles
 		while(i.hasNext()){
@@ -73,7 +73,7 @@ public class MiniMax implements PlayerAlgo{
 		}
 
 		MoveEnumerator mv = new MoveEnumerator();
-		Set<Move> listM = mv.getPossibleMoves(model);
+		TreeSet<Move> listM = mv.getPossibleMoves(model);
 		Iterator<Move> i=listM.iterator();
 
 		// si c'est Max

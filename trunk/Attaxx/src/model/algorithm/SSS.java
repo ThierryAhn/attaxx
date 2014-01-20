@@ -1,7 +1,8 @@
 package model.algorithm;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 import java.util.TreeSet;
 
 import model.AttaxxModel;
@@ -50,13 +51,6 @@ public class SSS implements PlayerAlgo {
 			System.out.println(listG);
 			// on extrait le premier noeud de la liste
 			NodeSSS n = extractFirst();
-			System.err.println(n);
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			// si le noeud est vivant
 			if (!n.isResolved()){
 				if(n.depth >= maxDepth){
@@ -66,7 +60,7 @@ public class SSS implements PlayerAlgo {
 				}else{
 					MoveEnumerator me = new MoveEnumerator(); 
 					// on récupère la liste des mouvement possibles
-					Set<Move> listM = me.getPossibleMoves(n.getModel());
+					TreeSet<Move> listM = me.getPossibleMoves(n.getModel());
 					Iterator<Move> i=listM.iterator();
 					if (n.getModel().getCurrentPlayer().equals(MAX)){
 						// prend tous les fils
@@ -92,26 +86,28 @@ public class SSS implements PlayerAlgo {
 					listG.add(nFather);
 					// on supprime tous les noeuds successeurs du père de n
 					Iterator<NodeSSS> i = listG.iterator();
+					List<NodeSSS> liN = new ArrayList<NodeSSS>();
 					while(i.hasNext()){
 						NodeSSS node = i.next();
 						if(node.getFather().equals(nFather))
-							listG.remove(node);
+							liN.add(node);
 					}
+					listG.removeAll(liN);
 					// si le père est le noeud racine
-					if (nFather.equals(root)){
+					if (nFather.getDepth() == 0){
 						root.setResolved();
+						root.setMove(n.getMove());
 						break;
 					}
 				}else{ // n est de type Max
 					NodeSSS nRightBrother = getRightBrother(n);
-					// si le noeud à un frère à droite
 					if(nRightBrother != null){
 						// on ajoute son frère droit comme vivant
 						nRightBrother.setValue(n.getValue());
 						listG.add(nRightBrother);
 						// on supprime le noeud
 						listG.remove(n);
-					}else{ // si il n'a pas de frère à droite
+					}else{
 						// on ajoute son père comme résolu
 						NodeSSS nFather = n.getFather();
 						nFather.setResolved();
@@ -120,16 +116,18 @@ public class SSS implements PlayerAlgo {
 						// on supprime le noeud
 						listG.remove(n);
 						// si le père est le noeud racine
-						if (nFather.equals(root)){
+						if (nFather.getDepth() == 0){
 							root.setResolved();
+							root.setMove(n.getMove());
 							break;
 						}
 					}
 				}
 			}
 		}
-		bestMove = listG.first().getMove();
-		return bestMove;
+		System.err.println(listG);
+		System.out.println(root.getMove());
+		return root.getMove();
 	}
 
 	/**
@@ -137,8 +135,7 @@ public class SSS implements PlayerAlgo {
 	 * @return un noeud
 	 */
 	private NodeSSS extractFirst(){
-		NodeSSS first = listG.first();
-		listG.remove(first);
+		NodeSSS first = listG.pollFirst();
 		return first;
 	}
 
@@ -149,60 +146,20 @@ public class SSS implements PlayerAlgo {
 	 * @return
 	 */
 	private NodeSSS getRightBrother(NodeSSS n){
-		
-		NodeSSS no = null;
 		MoveEnumerator me = new MoveEnumerator(); 
 		// on récupère la liste des mouvement possible pour le joueur
-		Set<Move> listM = me.getPossibleMoves(n.getFather().getModel());
-		Iterator<Move> i=listM.iterator();
-		
-		// tant qu'il y a de mouvements possibles
-		int j = 0;
-		Move m;
-		while(i.hasNext()){
-			System.out.print(j++ +" - ");
-			m = i.next();
-			if (m.equals(n.getMove()) && i.hasNext()){
-				NodeSSS node = new NodeSSS(n.getFather(), i.next());
-				no = node;
-				break;
+		TreeSet<Move> listM = me.getPossibleMoves(n.getFather().getModel());
+		List<Move> list = new ArrayList<Move>(listM);
+		NodeSSS node = null;
+
+		if(list.contains(n.getMove())){
+			int index = list.indexOf(node);
+			if(index < list.size() && index > 0){
+				Move m = list.get(list.indexOf(node)+1);
+				node = new NodeSSS(n.getFather(),m);
 			}
 		}
-		
-		return no;
-		
-		/*System.err.println("DEBUT");
-		MoveEnumerator me = new MoveEnumerator(); 
-		// on récupère la liste des mouvement possible pour le joueur
-		Set<Move> listM = me.getPossibleMoves(n.getFather().getModel());
-		Iterator<Move> i=listM.iterator();
-		
-		// tant qu'il y a de mouvements possibles
-		Move m;
-		while(i.hasNext()){
-			m = i.next();
-			if (m.equals(n.getMove())){
-				System.err.println("move " +m);
-				if(i.hasNext()){
-					System.err.println("True");
-					try {
-						Thread.sleep(2000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					NodeSSS node = new NodeSSS(n.getFather(), i.next());
-					return node;
-				}
-			}
-		}
-		System.err.println("End");
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+		return node;
 	}
 
 	/**
@@ -312,9 +269,9 @@ public class SSS implements PlayerAlgo {
 			int comp = getModel().compareTo(o.getModel());
 			if (comp != 0){
 				if (this.value < o.getValue()) 
-					comp=-1;
-				else
 					comp=1;
+				else
+					comp=-1;
 			}
 			return comp;
 		}
@@ -336,6 +293,10 @@ public class SSS implements PlayerAlgo {
 		public void setValue(int value) {
 			if (value < this.value)
 				this.value = value;
+		}
+
+		public void setMove(Move move) {
+			this.move = move;
 		}
 
 		@Override
