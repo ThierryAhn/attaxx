@@ -22,7 +22,7 @@ public class MiniMax implements PlayerAlgo{
 	
 	public MiniMax(int maxDept) {
 		
-		this.maxDepth = maxDept;
+		this.maxDepth = 3;
 	}
 
 	// FONCTIONS
@@ -37,11 +37,11 @@ public class MiniMax implements PlayerAlgo{
 		MoveEnumerator moveEnum = new MoveEnumerator();
 		// List des movements possibles
 		List<Move> listM = moveEnum.getPossibleMoves(model);
-		System.out.println(listM);
 		// tant qu'il y a des mouvements possibles
 		for(Move m : listM){
 			// On recupère le mouvement et on le simule
 			AttaxxModel md = model.simulateMove(m);
+			System.out.println(md + "\n");
 			int newVal = miniMax(1, md);
 			// Max des heuristiques
 			if (newVal < bestValue){
@@ -67,11 +67,14 @@ public class MiniMax implements PlayerAlgo{
 		MoveEnumerator mv = new MoveEnumerator();
 		List<Move> listM = mv.getPossibleMoves(model);
 		// si c'est Max
-		if (model.getCurrentPlayer().equals(MAX)){
+		if (model.getCurrentPlayer().equals(MIN)){
 			val = MINUS_INFINITY;
 			for(Move m : listM){
 				// on simule de mouvement
 				AttaxxModel md = model.simulateMove(m);
+				for(int i=0;i<dept;i++)
+					System.out.print("-");
+				System.out.println(md + "\n");
 				val = Math.max(val, miniMax(dept + 1,md));
 			}
 		}else{
@@ -80,6 +83,9 @@ public class MiniMax implements PlayerAlgo{
 			for(Move m : listM){
 				// on simule de mouvement
 				AttaxxModel md = model.simulateMove(m);
+				for(int i=0;i<dept;i++)
+					System.out.print("-");
+				System.out.println(md + "\n");
 				val = Math.min(val, miniMax(dept + 1,md));
 			}
 		}
