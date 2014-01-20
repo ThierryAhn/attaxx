@@ -1,5 +1,8 @@
 package view;
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -10,6 +13,8 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+
+import model.algorithm.PlayerAlgo;
 
 public class MenuBar extends JMenuBar{
 	
@@ -30,6 +35,10 @@ public class MenuBar extends JMenuBar{
 	
 	private ButtonGroup groupLevel;
 	private ButtonGroup groupAlgo;
+	
+	
+	
+	private PlayerAlgo algo;
 	
 	
 	public MenuBar(Attaxx ataxx){
@@ -77,10 +86,13 @@ public class MenuBar extends JMenuBar{
 		groupAlgo = new ButtonGroup();
 		rbMenuItem = new JRadioButtonMenuItem("Minimax");
 		rbMenuItem.setSelected(true);
+		rbMenuItem.addItemListener(new Listener());
 		groupAlgo.add(rbMenuItem);
 		subMenuItemAlgo.add(rbMenuItem);
 		
 		rbMenuItem = new JRadioButtonMenuItem("AlphaBeta");
+		rbMenuItem.addItemListener(new Listener());
+		
 		groupAlgo.add(rbMenuItem);
 		subMenuItemAlgo.add(rbMenuItem);
 		
@@ -99,8 +111,6 @@ public class MenuBar extends JMenuBar{
 		
 		subMenuItemAlgo.setIcon(new ImageIcon(getClass().getResource("/data/images/logo.png")));
 		menuParam.add(subMenuItemAlgo);
-		
-		
 		
 		
 		// menu aide
@@ -128,6 +138,7 @@ public class MenuBar extends JMenuBar{
 	}
 	
 	private void createController(final Attaxx ataxx){
+		// new game
 		menuNewGame.addMenuListener(new MenuListener(){
 			@Override
 			public void menuCanceled(MenuEvent arg0) {
@@ -148,6 +159,22 @@ public class MenuBar extends JMenuBar{
 			}
 			
 		});
+		
+		
+		// param
+		
+	}
+	
+	private class Listener implements ItemListener{
+
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			// TODO Auto-generated method stub
+			if(e.getStateChange() == ItemEvent.SELECTED){
+				System.out.println(e.getSource());
+			}
+		}
+		
 	}
 	
 }
