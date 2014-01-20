@@ -46,6 +46,7 @@ public class MenuBar extends JMenuBar{
 		
 		// menu parametres
 		menuParam = new JMenu("Paramètres");
+		menuParam.setIcon(new ImageIcon(getClass().getResource("/data/images/param.png")));
 		
 		// sous menu level
 		subMenuItemLevel = new JMenu("Level");
@@ -99,16 +100,22 @@ public class MenuBar extends JMenuBar{
 		subMenuItemAlgo.setIcon(new ImageIcon(getClass().getResource("/data/images/logo.png")));
 		menuParam.add(subMenuItemAlgo);
 		
-		menuParam.setIcon(new ImageIcon(getClass().getResource("/data/images/param.png")));
-		menuNewGame.setIcon(new ImageIcon(getClass().getResource("/data/images/new.png")));
+		
 		
 		
 		// menu aide
 		menuHelp = new JMenu("Aide");
+		menuHelp.setIcon(new ImageIcon(getClass().getResource("/data/images/aide.png")));
+		JMenuItem menuRegle = new JMenuItem("Comment jouer ?");
+		menuHelp.add(menuRegle);
+		
+		JMenuItem menuApropos = new JMenuItem("A propos !");
+		menuHelp.add(menuApropos);
 		
 		
 		// menu nouveau jeu
 		menuNewGame = new JMenu("Nouveau jeu");
+		menuNewGame.setIcon(new ImageIcon(getClass().getResource("/data/images/new.png")));
 		
 		
 	}
