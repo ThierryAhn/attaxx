@@ -2,6 +2,7 @@ package view;
 
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -18,12 +19,14 @@ public class MenuBar extends JMenuBar{
 	private static final long serialVersionUID = 1L;
 
 	private JMenu menuParam;
-	
-	private JMenu menuItemLevel;
-	private JMenu menuItemAlgo;
-	
-	
 	private JMenu menuNewGame;
+	private JMenu menuHelp;
+	
+	private JMenu subMenuItemLevel;
+	private JMenu subMenuItemAlgo;
+	
+	
+	
 	
 	private ButtonGroup groupLevel;
 	private ButtonGroup groupAlgo;
@@ -31,6 +34,7 @@ public class MenuBar extends JMenuBar{
 	
 	public MenuBar(Attaxx ataxx){
 		createMenu();
+		placeComponents();
 		createController(ataxx);
 	}
 	
@@ -38,60 +42,80 @@ public class MenuBar extends JMenuBar{
 	 * Crée les menus
 	 */
 	private void createMenu(){
+		
+		
+		// menu parametres
 		menuParam = new JMenu("Paramètres");
-		menuNewGame = new JMenu("Nouveau jeu");
 		
-		menuItemLevel = new JMenu("Level");
-		menuItemAlgo = new JMenu("Algorithme");
-		
+		// sous menu level
+		subMenuItemLevel = new JMenu("Level");
 		
 		groupLevel = new ButtonGroup();
 		JRadioButtonMenuItem rbMenuItem = new JRadioButtonMenuItem("Facile");
 		groupLevel.add(rbMenuItem);
 		
-		menuItemLevel.add(rbMenuItem);
+		subMenuItemLevel.add(rbMenuItem);
 		
 		rbMenuItem = new JRadioButtonMenuItem("Normal");
 		rbMenuItem.setSelected(true);
 		groupLevel.add(rbMenuItem);
 		
-		menuItemLevel.add(rbMenuItem);
+		subMenuItemLevel.add(rbMenuItem);
 		
 		rbMenuItem = new JRadioButtonMenuItem("Difficile");
 		groupLevel.add(rbMenuItem);
 		
-		menuItemLevel.add(rbMenuItem);
+		subMenuItemLevel.add(rbMenuItem);
 		
-		menuParam.add(menuItemLevel);
+		subMenuItemLevel.setIcon(new ImageIcon(getClass().getResource("/data/images/level.png")));
+		menuParam.add(subMenuItemLevel);
 		
+		// sous menu algorithme
+		subMenuItemAlgo = new JMenu("Algorithme");
 		
 		groupAlgo = new ButtonGroup();
 		rbMenuItem = new JRadioButtonMenuItem("Minimax");
 		rbMenuItem.setSelected(true);
 		groupAlgo.add(rbMenuItem);
-		menuItemAlgo.add(rbMenuItem);
+		subMenuItemAlgo.add(rbMenuItem);
 		
 		rbMenuItem = new JRadioButtonMenuItem("AlphaBeta");
 		groupAlgo.add(rbMenuItem);
-		menuItemAlgo.add(rbMenuItem);
+		subMenuItemAlgo.add(rbMenuItem);
 		
 		rbMenuItem = new JRadioButtonMenuItem("Negamax");
 		groupAlgo.add(rbMenuItem);
-		menuItemAlgo.add(rbMenuItem);
+		subMenuItemAlgo.add(rbMenuItem);
 		
 		rbMenuItem = new JRadioButtonMenuItem("AlphaBetaNegaMax");
 		groupAlgo.add(rbMenuItem);
-		menuItemAlgo.add(rbMenuItem);
+		subMenuItemAlgo.add(rbMenuItem);
 		
 		rbMenuItem = new JRadioButtonMenuItem("SSS");
 		groupAlgo.add(rbMenuItem);
-		menuItemAlgo.add(rbMenuItem);
-		
-		menuParam.add(menuItemAlgo);
+		subMenuItemAlgo.add(rbMenuItem);
 		
 		
+		subMenuItemAlgo.setIcon(new ImageIcon(getClass().getResource("/data/images/logo.png")));
+		menuParam.add(subMenuItemAlgo);
 		
+		menuParam.setIcon(new ImageIcon(getClass().getResource("/data/images/param.png")));
+		menuNewGame.setIcon(new ImageIcon(getClass().getResource("/data/images/new.png")));
+		
+		
+		// menu aide
+		menuHelp = new JMenu("Aide");
+		
+		
+		// menu nouveau jeu
+		menuNewGame = new JMenu("Nouveau jeu");
+		
+		
+	}
+	
+	private void placeComponents() {
 		this.add(menuParam);
+		this.add(menuHelp);
 		this.add(Box.createHorizontalGlue()); 
 		this.add(menuNewGame);	
 	}

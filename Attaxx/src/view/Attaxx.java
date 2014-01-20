@@ -1,12 +1,12 @@
 package view;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import model.AttaxxModel;
 import model.algorithm.MiniMax;
 import model.algorithm.PlayerAlgo;
-import model.algorithm.SSS;
 
 /**
  * The view of the game Attaxx
@@ -45,7 +45,11 @@ public class Attaxx {
 	 * Creates the view
 	 */
 	private void createView() {
+		ImageIcon img = new ImageIcon(getClass().getResource("/data/images/bluePion.png"));
+		
 		frame = new JFrame("Attaxx");
+		frame.setIconImage(img.getImage());
+		
 		board = new GameBoard(model);
 		menuBar = new MenuBar(this);
 	}
