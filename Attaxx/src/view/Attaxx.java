@@ -69,6 +69,7 @@ public class Attaxx {
 	 * Displays the frame
 	 */
 	public void display() {
+		frame.setResizable(false);
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);	
