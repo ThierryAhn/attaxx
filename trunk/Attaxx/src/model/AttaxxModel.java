@@ -236,17 +236,14 @@ public class AttaxxModel implements Cloneable, Comparable<AttaxxModel>{
 			for(int j = 0; j < getColumnNumber();j++){
 				if(cells[i][j].getPlayer().equals(player))
 					list.add(cells[i][j]);
-
 			}
 		}
-
 		return list;
-
 	}
 
 	public int heuristic(){
-//		if (getCurrentPlayer().equals(PlayerAlgo.MIN))
-//			return getCells(PlayerAlgo.MAX).size() - getCells(PlayerAlgo.MIN).size();
+		//		if (getCurrentPlayer().equals(PlayerAlgo.MIN))
+		//			return getCells(PlayerAlgo.MAX).size() - getCells(PlayerAlgo.MIN).size();
 		return getCells(PlayerAlgo.MAX).size() - getCells(PlayerAlgo.MIN).size();
 	}
 
@@ -294,5 +291,17 @@ public class AttaxxModel implements Cloneable, Comparable<AttaxxModel>{
 	@Override
 	public int compareTo(AttaxxModel o) {
 		return this.equals(o) ? 0 : 1;
+	}
+	@Override
+	public String toString() {
+		String str = "player:"+ (getCurrentPlayer().equals(PlayerAlgo.MAX) ? "Max" : "Min")+"\n";
+		for(int i = 0; i < getRowNumber();i++){
+			for(int j = 0; j < getColumnNumber();j++){
+				str += "|"+ (getCell(i, j).getPlayer()=="" ? " " : 
+							getCell(i, j).getPlayer().charAt(0));
+			}
+			str += "|\n";
+		}
+		return str;
 	}
 }

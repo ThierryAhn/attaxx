@@ -57,11 +57,6 @@ public class BoardController extends MouseAdapter {
 		JTable table = (JTable) e.getSource();
 		BoardModel model = (BoardModel) table.getModel();
 		if (model.getBoard().getCurrentPlayer().equals(Player.BLUE)) {
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
 			model.getBoard().playMove(model.getBoard().getAlgo().getNextMove(model.getBoard()));
 		}
 		table.repaint();
