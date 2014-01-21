@@ -24,12 +24,12 @@ public interface PlayerAlgo {
 	/**
 	 * Le joueur MAX
 	 */
-	public final static String MAX = Player.RED;
+	public static String MAX = Player.BLUE;
 	
 	/**
 	 * Le joueur MIN
 	 */
-	public final static String MIN = Player.BLUE;
+	public static String MIN = Player.RED;
 	
 	
 	/**

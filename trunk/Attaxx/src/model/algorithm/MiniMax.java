@@ -32,7 +32,7 @@ public class MiniMax implements PlayerAlgo{
 		// Meilleur Movement
 		Move bestMove=null;
 		// meilleur score
-		int bestValue = PLUS_INFINITY;
+		int bestValue = MINUS_INFINITY;
 		//List des mouvement possibles
 		MoveEnumerator moveEnum = new MoveEnumerator();
 		// List des movements possibles
@@ -43,7 +43,7 @@ public class MiniMax implements PlayerAlgo{
 			AttaxxModel md = model.simulateMove(m);
 			int newVal = miniMax(1, md);
 			// Max des heuristiques
-			if (newVal < bestValue){
+			if (newVal > bestValue){
 				bestValue  = newVal;
 				bestMove = m;
 			}
