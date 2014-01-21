@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import model.AttaxxModel;
-import model.algorithm.MiniMax;
+import model.algorithm.AlphaBetaNegaMax;
 
 /**
  * The view of the game Attaxx
@@ -94,7 +94,7 @@ public class Attaxx {
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				new Attaxx(new AttaxxModel(7, 7, new MiniMax(1))).display();
+				new Attaxx(new AttaxxModel(7, 7, new AlphaBetaNegaMax(4))).display();
 			}
 		});
 	}
