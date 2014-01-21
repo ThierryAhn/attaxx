@@ -50,7 +50,7 @@ public class AlphaBetaNegaMax implements PlayerAlgo {
 			int newVal;
 			Node n = new Node(model, m);
 			// on calcule la valeur Alpha-Beta sur les noeuds fils
-			newVal = AlphaBeta_NegaMax(1, n, alpha, beta);
+			newVal = -AlphaBeta_NegaMax(1, n, alpha, beta);
 			if(newVal > alpha) {
 				alpha = newVal;
 				bestMove = m;
@@ -60,7 +60,6 @@ public class AlphaBetaNegaMax implements PlayerAlgo {
 				break;
 		}
 		// retourne le meilleur mouvement
-		System.out.println(bestMove);
 		return bestMove;
 	}
 

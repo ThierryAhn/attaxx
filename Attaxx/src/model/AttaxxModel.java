@@ -218,11 +218,11 @@ public class AttaxxModel implements Cloneable, Comparable<AttaxxModel>{
 							c.setPlayer(m.getTarget().getPlayer());
 						}
 					}
-					// annuller la selection de la premiere
+					// annuler la selection de la premiere
 					setSelected(getSelected(), false);
 					nextPlayer();
 				}else{
-					// annuller la selection de la premiere
+					// annuler la selection de la premiere
 					setSelected(getSelected(), false);
 					System.out.println("impossible de faire cette action");
 				}
@@ -242,15 +242,14 @@ public class AttaxxModel implements Cloneable, Comparable<AttaxxModel>{
 	}
 
 	public int heuristic(){
-		//		if (getCurrentPlayer().equals(PlayerAlgo.MIN))
-		//			return getCells(PlayerAlgo.MAX).size() - getCells(PlayerAlgo.MIN).size();
 		return getCells(PlayerAlgo.MAX).size() - getCells(PlayerAlgo.MIN).size();
 	}
 
+
 	public int heuristicNega(){
 		if (getCurrentPlayer().equals(PlayerAlgo.MAX))
-			return getCells(PlayerAlgo.MIN).size() - getCells(PlayerAlgo.MAX).size();
-		return getCells(PlayerAlgo.MAX).size() - getCells(PlayerAlgo.MIN).size();
+			return getCells(PlayerAlgo.MAX).size() - getCells(PlayerAlgo.MIN).size();
+		return getCells(PlayerAlgo.MIN).size() - getCells(PlayerAlgo.MAX).size();
 	}
 
 	public AttaxxModel simulateMove(Move m) {
@@ -298,7 +297,6 @@ public class AttaxxModel implements Cloneable, Comparable<AttaxxModel>{
 						target2.setPlayer(target.getPlayer());
 					}
 				}
-				// annuller la selection de la premiere
 				md.nextPlayer();
 			}
 		}

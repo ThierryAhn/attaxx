@@ -24,6 +24,8 @@ public class SSS implements PlayerAlgo {
 	private int maxDepth;
 
 	private TreeSet<NodeSSS> listG;
+	
+	
 	// CONSTRUCTORS
 
 	/**
@@ -38,20 +40,20 @@ public class SSS implements PlayerAlgo {
 	@Override
 	public Move getNextMove(AttaxxModel model) {
 		listG = new TreeSet<NodeSSS>();
-		return sssAlgo(model);
+		NodeSSS root = new NodeSSS(model, PLUS_INFINITY);
+		return sssAlgo(root);
 	}
 
-	private Move sssAlgo(AttaxxModel model){
-		NodeSSS root = new NodeSSS(model,PLUS_INFINITY);
+	private Move sssAlgo(NodeSSS root){
 		listG.add(root);
 		// tant que la racine n'est pas résolue
 		while(!root.isResolved()){
-			System.out.println("G=" + listG);
+//			System.out.println("G=" + listG);
 			// on extrait le premier noeud de la liste
 			NodeSSS n = extractFirst();
 			// si le noeud est vivant
 			if (!n.isResolved()){
-				if(n.depth >= maxDepth){
+				if(n.getModel().gameOver() || n.depth >= maxDepth){
 					n.setResolved();
 					n.setValue(n.getModel().heuristic());
 					listG.add(n);
@@ -62,13 +64,13 @@ public class SSS implements PlayerAlgo {
 					if (n.getModel().getCurrentPlayer().equals(MAX)){
 						// prend tous les fils
 						for(Move m : listM){
-							NodeSSS nodeSon = new NodeSSS(n, m);
+							NodeSSS nodeSon = new NodeSSS(n, m, listM.indexOf(m));
 							// on ajoute le noeud à la liste
 							listG.add(nodeSon);
 						}
 					}else{ // si c'est min
-						Move m = listM.iterator().next();
-						NodeSSS nodeSon = new NodeSSS(n, m);
+						Move m = listM.get(0);
+						NodeSSS nodeSon = new NodeSSS(n, m, listM.indexOf(m));
 						// on ajoute le premier fils à gauche
 						listG.add(nodeSon);
 					}
@@ -83,7 +85,7 @@ public class SSS implements PlayerAlgo {
 					// on supprime tous les noeuds successeurs du père de n
 					List<NodeSSS> liN = new ArrayList<NodeSSS>();
 					for(NodeSSS node: listG){
-						if(node.getFather().equals(nFather))
+						if(node.getFather() != null && node.getFather().equals(nFather))
 							liN.add(node);
 					}
 					listG.removeAll(liN);
@@ -99,16 +101,12 @@ public class SSS implements PlayerAlgo {
 						// on ajoute son frère droit comme vivant
 						nRightBrother.setValue(n.getValue());
 						listG.add(nRightBrother);
-						// on supprime le noeud
-						listG.remove(n);
 					}else{
 						// on ajoute son père comme résolu
 						NodeSSS nFather = n.getFather();
 						nFather.setResolved();
 						nFather.setValue(n.getValue());
 						listG.add(nFather);
-						// on supprime le noeud
-						listG.remove(n);
 						// si le père est le noeud racine
 						if (nFather.getDepth() == 0){
 							root.setResolved();
@@ -121,8 +119,8 @@ public class SSS implements PlayerAlgo {
 				}
 			}
 		}
-		System.out.println("G=" + listG);
-		System.out.println(root.getMove());
+//		System.out.println("G=" + listG);
+//		System.out.println(root.getMove());
 		return root.getMove();
 	}
 
@@ -146,13 +144,13 @@ public class SSS implements PlayerAlgo {
 		// on récupère la liste des mouvement possible pour le joueur
 		List<Move> listM = me.getPossibleMoves(n.getFather().getModel());
 		NodeSSS node = null;
-		if(listM.contains(n.getMove())){
-			int index = listM.indexOf(node);
-			if(index < listM.size() && index > 0){
-				Move m = listM.get(listM.indexOf(node)+1);
-				node = new NodeSSS(n.getFather(),m);
-			}
+		int index = n.getIndex();
+		if(index < listM.size()-1){
+			Move m = listM.get(index + 1);
+			node = new NodeSSS(n.getFather(), m, index + 1);
+//			System.out.println(n + " à un frère " + (index + 1) + "/" + listM.size());
 		}
+		
 		return node;
 	}
 
@@ -177,6 +175,8 @@ public class SSS implements PlayerAlgo {
 		private Move move;
 		// profondeur
 		private int depth;
+		// index du mouvmement
+		private int index;
 
 		// CONSTRUCTORS
 
@@ -197,12 +197,13 @@ public class SSS implements PlayerAlgo {
 		 * @param move le mouvement
 		 * @param father le père du noeud
 		 */
-		public NodeSSS(NodeSSS father, Move move) {
+		public NodeSSS(NodeSSS father, Move move, int index) {
 			this.model = father.getModel().simulateMove(move);
 			this.father = father;
 			this.move = move;
 			this.value = father.getValue();
 			this.depth = father.getDepth() + 1;
+			this.index = index;
 		}
 
 		// FONCTIONS
@@ -217,6 +218,14 @@ public class SSS implements PlayerAlgo {
 			return resolved;
 		}
 
+		/**
+		 * Retourne l'index du mouvment du noeud
+		 * @return
+		 */
+		public int getIndex() {
+			return index;
+		}
+		
 		/**
 		 * Retourne le père du noeud
 		 *
@@ -285,8 +294,7 @@ public class SSS implements PlayerAlgo {
 		 * @param value
 		 */
 		public void setValue(int value) {
-			if (value < this.value)
-				this.value = value;
+				this.value = Math.min(value, this.value);
 		}
 
 		public void setMove(Move move) {
@@ -297,7 +305,8 @@ public class SSS implements PlayerAlgo {
 		public boolean equals(Object obj) {
 			if (obj instanceof NodeSSS){
 				NodeSSS node = (NodeSSS)obj;
-				return 	getModel().equals(node.getModel());
+				return 	getModel().equals(node.getModel())
+						&& depth == node.getDepth();
 			}
 			return false;
 		}

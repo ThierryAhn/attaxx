@@ -49,7 +49,7 @@ public class NegaMax implements PlayerAlgo {
 		for(Move m : listM){
 			// On recupère le mouvementet on le simule
 			AttaxxModel md = model.simulateMove(m);
-			int newVal = negaMax(1, md);
+			int newVal = -negaMax(1, md);
 			if (newVal > val){
 				val  = newVal;
 				bestMove = m;
