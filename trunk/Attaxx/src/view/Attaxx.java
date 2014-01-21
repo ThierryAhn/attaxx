@@ -83,6 +83,7 @@ public class Attaxx {
 	 * Close the application
 	 */
 	public void close() {
+		frame.setVisible(false);
 		frame.dispose();
 	}
 
@@ -97,6 +98,14 @@ public class Attaxx {
 				new Attaxx(new AttaxxModel(7, 7, new AlphaBetaNegaMax(4))).display();
 			}
 		});
+	}
+	
+	/**
+	 * Return the frame
+	 * @return
+	 */
+	public JFrame getFrame() {
+		return frame;
 	}
 
 }

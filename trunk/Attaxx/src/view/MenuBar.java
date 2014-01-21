@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -48,10 +50,14 @@ public class MenuBar extends JMenuBar{
 	private PlayerAlgo algo;
 	private AttaxxModel model;
 
-
+	
+	private JMenuItem menuRegle;
+	private JMenuItem menuApropos;
+	
+	
 	public MenuBar(Attaxx ataxx){
-		model = new AttaxxModel(7, 7, new MiniMax(1));
-
+		//model = new AttaxxModel(7, 7, new MiniMax(1));
+		
 		createMenu();
 		placeComponents();
 		createController(ataxx);
@@ -123,7 +129,7 @@ public class MenuBar extends JMenuBar{
 				algo = new MiniMax(choixLevel);
 				model = new AttaxxModel(7, 7, algo);
 
-				rbMenuItemLevel[choixLevel].setSelected(true);
+				rbMenuItemLevel[choixLevel-1].setSelected(true);
 
 
 			}
@@ -139,7 +145,7 @@ public class MenuBar extends JMenuBar{
 				algo = new AlphaBeta(choixLevel);
 				model = new AttaxxModel(7, 7, algo);
 
-				rbMenuItemLevel[choixLevel].setSelected(true);
+				rbMenuItemLevel[choixLevel-1].setSelected(true);
 
 
 			}
@@ -156,7 +162,7 @@ public class MenuBar extends JMenuBar{
 				algo = new NegaMax(choixLevel);
 				model = new AttaxxModel(7, 7, algo);
 
-				rbMenuItemLevel[choixLevel].setSelected(true);
+				rbMenuItemLevel[choixLevel-1].setSelected(true);
 
 
 			}
@@ -172,7 +178,7 @@ public class MenuBar extends JMenuBar{
 				algo = new AlphaBetaNegaMax(choixLevel);
 				model = new AttaxxModel(7, 7, algo);
 
-				rbMenuItemLevel[choixLevel].setSelected(true);
+				rbMenuItemLevel[choixLevel-1].setSelected(true);
 
 
 			}
@@ -188,7 +194,7 @@ public class MenuBar extends JMenuBar{
 				algo = new SSS(choixLevel);
 				model = new AttaxxModel(7, 7, algo);
 
-				rbMenuItemLevel[choixLevel].setSelected(true);
+				rbMenuItemLevel[choixLevel-1].setSelected(true);
 
 
 			}
@@ -204,10 +210,10 @@ public class MenuBar extends JMenuBar{
 		// menu aide
 		menuHelp = new JMenu("Aide");
 		menuHelp.setIcon(new ImageIcon(getClass().getResource("/data/images/aide.png")));
-		JMenuItem menuRegle = new JMenuItem("Comment jouer ?");
+		menuRegle = new JMenuItem("Règle du jeu");
 		menuHelp.add(menuRegle);
 
-		JMenuItem menuApropos = new JMenuItem("A propos !");
+		menuApropos = new JMenuItem("A propos !");
 		menuHelp.add(menuApropos);
 
 
@@ -226,6 +232,21 @@ public class MenuBar extends JMenuBar{
 	}
 
 	private void createController(final Attaxx ataxx){
+		
+		// règle du jeu
+		menuRegle.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				new Rule(ataxx.getFrame());
+			}
+		});
+		
+		menuApropos.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				new About(ataxx.getFrame());
+			}
+		});
+		
+		
 		// new game
 		menuNewGame.addMenuListener(new MenuListener(){
 			@Override
@@ -241,7 +262,6 @@ public class MenuBar extends JMenuBar{
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						new Attaxx(model).display();
-						System.out.println("level : "+choixLevel);	
 					}
 				});
 				ataxx.close();
