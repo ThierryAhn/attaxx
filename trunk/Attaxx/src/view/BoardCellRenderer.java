@@ -17,7 +17,9 @@ public class BoardCellRenderer extends DefaultTableCellRenderer {
 	private static final ImageIcon[] ICONS = new ImageIcon[] {
 		createImageIcon("/data/images/bluePion.png"),
 		createImageIcon("/data/images/redPion.png"),
-		createImageIcon("/data/images/block.png")};
+		createImageIcon("/data/images/block.png"),
+		createBigImageIcon("/data/images/bluePion.png"),
+		createBigImageIcon("/data/images/redPion.png")};
 
 
 	private DefaultTableCellRenderer delegate;
@@ -33,17 +35,25 @@ public class BoardCellRenderer extends DefaultTableCellRenderer {
 		
 		Cell cell = (Cell) table.getValueAt(row, column);
 		
-		if (cell.getPlayer().equals("blue")) { 
-			delegate.setIcon(ICONS[0]);
+		if (cell.getPlayer().equals("blue")) {
+			if(cell.isSelected())
+				delegate.setIcon(ICONS[3]);
+			else
+				delegate.setIcon(ICONS[0]);
 		}
 		else if (cell.getPlayer().equals("red")){
-			delegate.setIcon(ICONS[1]);
+			if(cell.isSelected())
+				delegate.setIcon(ICONS[4]);
+			else
+				delegate.setIcon(ICONS[1]);
 		}
 		else if (cell.isBlock()){
 			delegate.setIcon(ICONS[2]);
 		}else {
 			delegate.setIcon(null);
 		}
+		
+		delegate.setBackground(cell.getColor());
 		
 		Component result = delegate.getTableCellRendererComponent(table, null,
     			isSelected, hasFocus, row, column);
@@ -57,9 +67,20 @@ public class BoardCellRenderer extends DefaultTableCellRenderer {
 			return null;
 		}
 		ImageIcon icon = new ImageIcon(imgURL);
-		Image img = icon.getImage().getScaledInstance(45, 45, 
+		Image img = icon.getImage().getScaledInstance(46, 44, 
 				java.awt.Image.SCALE_SMOOTH);
 		return new ImageIcon(img);
 	}
 
+	private static ImageIcon createBigImageIcon(String path) {
+		java.net.URL imgURL = BoardCellRenderer.class.getResource(path);
+		if (imgURL == null) {
+			System.err.println("Ressource non trouvée : " + path);
+			return null;
+		}
+		ImageIcon icon = new ImageIcon(imgURL);
+		Image img = icon.getImage().getScaledInstance(48, 46, 
+				java.awt.Image.SCALE_SMOOTH);
+		return new ImageIcon(img);
+	}
 }
