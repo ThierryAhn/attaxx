@@ -50,7 +50,7 @@ public class AlphaBetaNegaMax implements PlayerAlgo {
 			int newVal;
 			Node n = new Node(model, m);
 			// on calcule la valeur Alpha-Beta sur les noeuds fils
-			newVal = -1*AlphaBeta_NegaMax(1, n, alpha, beta);
+			newVal = AlphaBeta_NegaMax(1, n, alpha, beta);
 			if(newVal > alpha) {
 				alpha = newVal;
 				bestMove = m;
@@ -71,7 +71,7 @@ public class AlphaBetaNegaMax implements PlayerAlgo {
 		/* si on a atteint la profondeur maximale on retourne l'heuristique 
 		   du modèle, ce qui représente une feuille*/
 		if(depth >= maxDepth){
-			return node.getModel().heuristic();
+			return node.getModel().heuristicNega();
 		}
 
 		MoveEnumerator me = new MoveEnumerator(); 
@@ -79,8 +79,8 @@ public class AlphaBetaNegaMax implements PlayerAlgo {
 		int val;
 		for(Move m : listM){
 			Node n = new Node(node.getModel(), m);
-			val = -1*AlphaBeta_NegaMax(depth+1, n, 
-					node.getAlpha(), node.getBeta());
+			val = -AlphaBeta_NegaMax(depth+1, n, 
+					-node.getBeta(),-node.getAlpha());
 			// On prend le maximum pour son alpha
 			node.setAlpha(Math.max(node.getAlpha(), val));
 			/* si Alpha est plus grand ou égal à Beta en élague 

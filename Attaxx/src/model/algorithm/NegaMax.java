@@ -49,7 +49,7 @@ public class NegaMax implements PlayerAlgo {
 		for(Move m : listM){
 			// On recupère le mouvementet on le simule
 			AttaxxModel md = model.simulateMove(m);
-			int newVal = -1*negaMax(1, md);
+			int newVal = negaMax(1, md);
 			if (newVal > val){
 				val  = newVal;
 				bestMove = m;
@@ -61,7 +61,7 @@ public class NegaMax implements PlayerAlgo {
 
 	private int negaMax(int dept, AttaxxModel model){
 		if (dept >= maxDepth){
-			return model.heuristic();
+			return model.heuristicNega();
 		}
 
 		MoveEnumerator mv = new MoveEnumerator();
@@ -70,7 +70,7 @@ public class NegaMax implements PlayerAlgo {
 		for(Move m : listM){
 			// on simule de mouvement
 			AttaxxModel md = model.simulateMove(m);
-			val = Math.max(val,-1*negaMax(dept + 1,md));
+			val = Math.max(val,-negaMax(dept + 1,md));
 		}
 		return val;
 	}

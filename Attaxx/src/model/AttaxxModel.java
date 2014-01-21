@@ -247,44 +247,61 @@ public class AttaxxModel implements Cloneable, Comparable<AttaxxModel>{
 		return getCells(PlayerAlgo.MAX).size() - getCells(PlayerAlgo.MIN).size();
 	}
 
+	public int heuristicNega(){
+		if (getCurrentPlayer().equals(PlayerAlgo.MAX))
+			return getCells(PlayerAlgo.MIN).size() - getCells(PlayerAlgo.MAX).size();
+		return getCells(PlayerAlgo.MAX).size() - getCells(PlayerAlgo.MIN).size();
+	}
+
 	public AttaxxModel simulateMove(Move m) {
 		AttaxxModel md = clone();
-		List<Cell> listNeib = m.getRoot().getNeighborhoods();
-		if(m.getTarget().isNeighborhood(m.getRoot())){
-			md.getCell(m.getTarget().getRow(),m.getTarget().getCol()).setPlayer(m.getRoot().getPlayer());
+		// si la deuxieme est voisine
+		if(m.getRoot().isNeighborhood(m.getTarget())){
+			// changer la couleur de la deuxime par celle de la 1ere
+			md.getCell(m.getTarget().getRow(), m.getTarget().getCol())
+			.setPlayer(m.getRoot().getPlayer());
+
+			List<Cell> listNeib = md.getCell(m.getTarget().getRow(), 
+					m.getTarget().getCol()).getNeighborhoods();
 			// changer la couleur des voisins
 			for (Cell c : listNeib) {
-				if(!c.isEmpty() && !c.isBlock() && !c.getPlayer().equals(Player.BLUE)){
-					md.getCell(c.getRow(), c.getCol()).setPlayer(m.getPlayer());
+				if(!c.isEmpty() && !c.isBlock()){
+					md.getCell(c.getRow(),c.getCol())
+					.setPlayer(m.getRoot().getPlayer());
 				}
 			}
-		}
-		else {
+			md.nextPlayer();
+		}else{// si la deuxieme n'est pas voisine
 			boolean saut = false;
+			Cell root = md.getCell(m.getRoot().getRow(),
+					m.getRoot().getCol());
+			List<Cell> listNeib = root.getNeighborhoods();
+			Cell target = null;
 			for (Cell c : listNeib) {
-				if(m.getTarget().isNeighborhood(md.getCell(c.getRow(), c.getCol())) 
-						&& !md.getCell(c.getRow(), c.getCol()).equals(m.getTarget())){
+				target = md.getCell(m.getTarget().getRow(),m.getTarget().getCol());
+				if(target.isNeighborhood(c) && !c.equals(target)){
 					saut=true;
 				}
 			}
 			if (saut){
 				// changer la couleur de la deuxime par celle de la 1ere
-				md.getCell(m.getTarget().getRow(),m.getTarget().getCol()).setPlayer(m.getPlayer());
+				target.setPlayer(root.getPlayer());
 				// la premiere devient blanche
-				md.getCell(m.getRoot().getRow(),m.getRoot().getCol()).setEmpty();
+				root.setEmpty();
 				// changer la couleur des voisins
+				listNeib = target.getNeighborhoods();
+				//
+				Cell target2;
 				for (Cell c : listNeib) {
-					if(!md.getCell(c.getRow(), c.getCol()).isEmpty() 
-							&& !md.getCell(c.getRow(), c.getCol()).isBlock() 
-							&& !md.getCell(c.getRow(), c.getCol()).getPlayer().equals(Player.BLUE)){
-						md.getCell(c.getRow(), c.getCol()).setPlayer(m.getPlayer());
+					target2 = md.getCell(c.getRow(), c.getCol());
+					if(!target2.isEmpty() && !target2.isBlock()){
+						target2.setPlayer(target.getPlayer());
 					}
 				}
-			}else{
-				System.out.println("impossible de faire cette action");
+				// annuller la selection de la premiere
+				md.nextPlayer();
 			}
 		}
-		md.nextPlayer();
 		return md;
 	}
 
@@ -292,16 +309,17 @@ public class AttaxxModel implements Cloneable, Comparable<AttaxxModel>{
 	public int compareTo(AttaxxModel o) {
 		return this.equals(o) ? 0 : 1;
 	}
+
 	@Override
 	public String toString() {
 		String str = "player:"+ (getCurrentPlayer().equals(PlayerAlgo.MAX) ? "Max" : "Min")+"\n";
 		for(int i = 0; i < getRowNumber();i++){
 			for(int j = 0; j < getColumnNumber();j++){
 				str += "|"+ (getCell(i, j).getPlayer()=="" ? " " : 
-							getCell(i, j).getPlayer().charAt(0));
+					getCell(i, j).getPlayer().charAt(0));
 			}
 			str += "|\n";
 		}
-		return str;
+		return str + "h="+ heuristic() + "\n";
 	}
 }
