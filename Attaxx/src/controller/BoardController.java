@@ -1,7 +1,10 @@
 package controller;
 
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -14,9 +17,9 @@ import view.GameBoard;
 
 
 public class BoardController extends MouseAdapter {
-	
+
 	GameBoard gb;
-	
+
 	public BoardController(GameBoard gb) {
 		this.gb = gb;
 	}
@@ -40,6 +43,7 @@ public class BoardController extends MouseAdapter {
 						if (cell.getPlayer().equals(Player.RED)) {
 							// le selected de la cellule devient true du board aussi
 							model.getBoard().setSelected(cell, true);
+							colorNeiborhood(cell, new Color(250,240,230));
 						} else {
 							// bip systeme : aucune cellule selectionnee
 							java.awt.Toolkit.getDefaultToolkit().beep();
@@ -50,11 +54,12 @@ public class BoardController extends MouseAdapter {
 							// si la deuxieme selectionnée est rouge ou bleu ou noir
 							if (!cell.isEmpty()) {
 								// annuller la premiere selection et afficher un message
+								colorNeiborhood(model.getBoard().getSelected(), Color.WHITE);
 								model.getBoard().setSelected(model.getBoard().getSelected(), false);
 								// bip systeme : cellule non vide
 								java.awt.Toolkit.getDefaultToolkit().beep();
 							} else {// sinon si elle est vide on joue le mouvement
-	
+								colorNeiborhood(model.getBoard().getSelected(), Color.WHITE);
 								Move m = new Move(model.getBoard().getCurrentPlayer(), model.getBoard().getSelected(), cell);
 								if (model.getBoard().isLegal(m)) {
 									model.getBoard().playMove(m);
@@ -75,7 +80,7 @@ public class BoardController extends MouseAdapter {
 			table.repaint();
 		}
 	}
-	
+
 	public void mouseReleased(MouseEvent e) {
 		JTable table = (JTable) e.getSource();
 		BoardModel model = (BoardModel) table.getModel();
@@ -84,6 +89,7 @@ public class BoardController extends MouseAdapter {
 				long begin = System.currentTimeMillis();
 				System.out.println("tour de l'ordi");
 				model.getBoard().playMove(model.getBoard().getAlgo().getNextMove(model.getBoard()));
+				
 				table.repaint();
 				System.out.println("mon tour");
 				long end = System.currentTimeMillis();
@@ -97,16 +103,27 @@ public class BoardController extends MouseAdapter {
 			table.repaint();
 		}
 	}
-	
-	public void endOfGame(BoardModel model) {
+
+	private void endOfGame(BoardModel model) {
 		int retour = JOptionPane.showConfirmDialog(null, 
-		         "Le jeux est finis\n Voulez vous rejouer ?",
-		         "Félicitation !",
-		         JOptionPane.YES_NO_OPTION);
+				"Le jeux est finis\n Voulez vous rejouer ?",
+				"Félicitation !",
+				JOptionPane.YES_NO_OPTION);
 		if (retour == JOptionPane.NO_OPTION) {
 			System.exit(0);
 		} else {
 			gb.reinit();
+		}
+	}
+
+	private void colorNeiborhood(Cell c, Color color){
+		Set<Cell> listNeib = new HashSet<Cell>(c.getNeighborhoods());
+		for(Cell cell : c.getNeighborhoods()){
+			listNeib.addAll(cell.getNeighborhoods());
+		}
+		for (Cell cell : listNeib){
+			if(!cell.isBlock() && cell.isEmpty())
+				cell.setColor(color);
 		}
 	}
 }
