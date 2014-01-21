@@ -147,12 +147,12 @@ public class AttaxxModel implements Cloneable, Comparable<AttaxxModel>{
 
 	// a modifier
 	public boolean gameOver(){
-		for(int i = 0; i < getRowNumber();i++){
-			for(int j = 0; j < getColumnNumber();j++){
-				if(getCell(i, j).isEmpty()) return false;
-			}
+		Boolean finish = true;
+		MoveEnumerator mv = new MoveEnumerator();
+		if(mv.getPossibleMoves(this).size() != 0){
+			finish = false;
 		}
-		return true;
+		return finish;
 	}
 
 	public boolean isLegal(Move move){
