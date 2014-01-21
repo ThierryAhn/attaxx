@@ -90,7 +90,7 @@ public class GameBoard extends JPanel {
 	}
 
 	private void createController() {
-		MouseAdapter bc = new BoardController();
+		MouseAdapter bc = new BoardController(this);
 		table.addMouseListener(bc);
 		table.addMouseMotionListener(bc);
 	}
