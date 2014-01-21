@@ -39,6 +39,8 @@ public class SSS implements PlayerAlgo {
 
 	@Override
 	public Move getNextMove(AttaxxModel model) {
+		System.out.println("SSS");
+		
 		listG = new TreeSet<NodeSSS>();
 		NodeSSS root = new NodeSSS(model, PLUS_INFINITY);
 		return sssAlgo(root);
