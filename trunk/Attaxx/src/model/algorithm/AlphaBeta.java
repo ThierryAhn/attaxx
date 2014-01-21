@@ -38,9 +38,9 @@ public class AlphaBeta implements PlayerAlgo{
 	@Override
 	public Move getNextMove(AttaxxModel model){
 		// Valeur Alpha
-		int alpha = MINUS_INFINITY;
+		final int alpha = MINUS_INFINITY;
 		// Valeur Beta
-		final int beta  = PLUS_INFINITY;
+		int beta  = PLUS_INFINITY;
 		// Le meilleur Mouvement
 		Move bestMove = null;
 
@@ -54,7 +54,7 @@ public class AlphaBeta implements PlayerAlgo{
 			// on calcule la valeur Alpha-Beta sur les noeuds fils
 			newVal = alphaBeta(1, n, alpha, beta);
 			if(newVal < beta) {
-				alpha = newVal;
+				beta = newVal;
 				bestMove = m;
 			}
 			// si alpha est plus grand que beta on élague les prochains noeuds
