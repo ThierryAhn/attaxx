@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Color;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class Cell implements Comparable<Cell>, Cloneable {
 	private boolean isBlock = false;
 	private String player = "";
 	private PropertyChangeSupport support;
+	private Color color = Color.WHITE;
 	
 	public boolean isEmpty() {
 		return isEmpty;
@@ -173,5 +175,13 @@ public class Cell implements Comparable<Cell>, Cloneable {
 			e.printStackTrace();
 		}
 		return c;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+	
+	public void setColor(Color color) {
+		this.color = color;
 	}
 }

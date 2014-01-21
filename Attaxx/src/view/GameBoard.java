@@ -14,8 +14,6 @@ import model.Player;
 import controller.BoardController;
 
 
-
-
 @SuppressWarnings("serial")
 public class GameBoard extends JPanel {
 
