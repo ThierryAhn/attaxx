@@ -89,4 +89,9 @@ public class AlphaBetaNegaMax implements PlayerAlgo {
 		}
 		return node.getAlpha();
 	}
+	
+	@Override
+	public int getMaxDepth() {
+		return maxDepth;
+	}
 }

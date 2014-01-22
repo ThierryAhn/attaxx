@@ -39,4 +39,6 @@ public interface PlayerAlgo {
 	 * @return le meilleur mouvement
 	 */
 	public Move getNextMove(AttaxxModel model);
+	
+	public int getMaxDepth();
 }
