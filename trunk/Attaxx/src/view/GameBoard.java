@@ -1,8 +1,10 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.MouseAdapter;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
@@ -18,34 +20,51 @@ import controller.BoardController;
 public class GameBoard extends JPanel {
 
 	private static final int DIMENSIONVALUE = 50;
-
-	private BoardTableModel model;
 	
-
-
-
+	private BoardTableModel model;
 	private JTable table;
 	private AttaxxModel boardModel;
-
+	
+	
+	private JLabel scoreLabel;
+	
+	
+	
 	public GameBoard(AttaxxModel boardModel) {
 		this.boardModel = boardModel;
 		createModel();
+		createView();
 		createTable();
-		placeTable();
+		placeComponents();
 		initTable();
 		createController();
 	}
 
-	public AttaxxModel getModel() {
+	public AttaxxModel getBoard() {
 		return boardModel;
 	}
-
+	
+	
+	private void createView(){
+		scoreLabel = new JLabel("     0 : 0     ");
+		Font font = new Font("Arial",Font.BOLD,20);
+		scoreLabel.setFont(font);
+	}
+	
 	private void createModel() {
 		model = new BoardModel(boardModel);
 	}
 
 	public JTable getTable() {
 		return table;
+	}
+
+	public AttaxxModel getModel() {
+		return boardModel;
+	}
+
+	public void setModel(AttaxxModel model) {
+		this.boardModel = model;
 	}
 
 	private void createTable() {
@@ -66,8 +85,31 @@ public class GameBoard extends JPanel {
 		}
 	}
 
-	private void placeTable() {
+	private void placeComponents() {
+		
+		JPanel panelScore = new JPanel();
+		
+		setLayout(new BorderLayout());
+		
 		this.add(table, BorderLayout.CENTER);
+		
+		panelScore.add(new JLabel(""), BorderLayout.WEST);
+		
+		JPanel panelTemp = new JPanel(new BorderLayout());
+		
+		JLabel labelTemp = new JLabel();
+		labelTemp.setIcon(BoardCellRenderer.createBigImageIcon("/data/images/redPion.png"));
+		panelTemp.add(labelTemp, BorderLayout.WEST);
+		panelTemp.add(scoreLabel);
+		labelTemp = new JLabel();
+		labelTemp.setIcon(BoardCellRenderer.createBigImageIcon("/data/images/bluePion.png"));
+		panelTemp.add(labelTemp, BorderLayout.EAST);
+		
+		panelScore.add(panelTemp, BorderLayout.CENTER);
+		
+		panelScore.add(new JLabel(""), BorderLayout.EAST);
+		
+		this.add(panelScore, BorderLayout.SOUTH);
 	}
 
 
@@ -77,18 +119,17 @@ public class GameBoard extends JPanel {
 		boardModel.getCell(6, 6).setPlayer(Player.RED);
 		boardModel.getCell(0, 6).setPlayer(Player.BLUE);
 		boardModel.getCell(6, 0).setPlayer(Player.BLUE);
-		boardModel.setInitial(true);
-		boardModel.getCell(1, 1).setBlock();
-		boardModel.getCell(1, 5).setBlock();
-		boardModel.getCell(3, 3).setBlock();
-		boardModel.getCell(5, 1).setBlock();
-		boardModel.getCell(5, 5).setBlock();
+//		boardModel.getCell(1, 1).setBlock();
+//		boardModel.getCell(1, 5).setBlock();
+//		boardModel.getCell(3, 3).setBlock();
+//		boardModel.getCell(5, 1).setBlock();
+//		boardModel.getCell(5, 5).setBlock();
 	}
 
 	public void reinit() {
 		boardModel.reinit();
 		createTable();
-		placeTable();
+		placeComponents();
 		initTable();
 	}
 
@@ -98,14 +139,8 @@ public class GameBoard extends JPanel {
 		table.addMouseMotionListener(bc);
 	}
 
-	public AttaxxModel getBoardModel() {
-		return boardModel;
+	public JLabel getScoreLabel() {
+		return scoreLabel;
 	}
-
-	public void setBoardModel(AttaxxModel boardModel) {
-		this.boardModel = boardModel;
-	}
-
-	
 	
 }

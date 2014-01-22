@@ -64,6 +64,7 @@ public class BoardController extends MouseAdapter {
 								if (model.getBoard().isLegal(m)) {
 									model.getBoard().playMove(m);
 									model.getBoard().setInitial(false);
+									model.getBoard().setTakeenBrick(false);
 									if (model.getBoard().gameOver()) {
 										endOfGame(model);
 									}
@@ -76,6 +77,17 @@ public class BoardController extends MouseAdapter {
 					}
 				} else {
 					endOfGame(model);
+				}
+			}else if (e.getButton() == MouseEvent.BUTTON3 
+					&& e.getClickCount() == 1){
+				if(model.getBoard().isInitial() 
+						&& model.getBoard().isTakeenBrick()
+						&& cell.isEmpty()){
+					cell.setBlock();
+				}else if(model.getBoard().isInitial() 
+						&& model.getBoard().isTakeenBrick()
+						&& cell.isBlock()){
+					cell.setEmpty();
 				}
 			}
 			
