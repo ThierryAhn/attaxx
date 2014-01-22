@@ -110,4 +110,9 @@ public class AlphaBeta implements PlayerAlgo{
 			return node.getBeta();
 		}
 	}
+	
+	@Override
+	public int getMaxDepth() {
+		return maxDepth;
+	}
 }

@@ -84,4 +84,9 @@ public class MiniMax implements PlayerAlgo{
 		}
 		return val;
 	}
+	
+	@Override
+	public int getMaxDepth() {
+		return maxDepth;
+	}
 }

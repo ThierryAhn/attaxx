@@ -321,4 +321,9 @@ public class SSS implements PlayerAlgo {
 		}
 	}
 
+	@Override
+	public int getMaxDepth() {
+		return maxDepth;
+	}
+
 }

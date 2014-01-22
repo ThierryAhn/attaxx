@@ -74,4 +74,9 @@ public class NegaMax implements PlayerAlgo {
 		}
 		return val;
 	}
+	
+	@Override
+	public int getMaxDepth() {
+		return maxDepth;
+	}
 }
