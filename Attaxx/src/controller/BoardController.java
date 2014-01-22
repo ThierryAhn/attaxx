@@ -78,6 +78,10 @@ public class BoardController extends MouseAdapter {
 					endOfGame(model);
 				}
 			}
+			
+			gb.getScoreLabel().setText("     "+model.getBoard().getCells(Player.RED).size() + " : " + 
+					model.getBoard().getCells(Player.BLUE).size() +"     ");
+			
 			table.repaint();
 		}
 	}
@@ -101,6 +105,10 @@ public class BoardController extends MouseAdapter {
 			} else {
 				endOfGame(model);
 			}
+			
+			gb.getScoreLabel().setText("     "+model.getBoard().getCells(Player.RED).size() + " : " + 
+					model.getBoard().getCells(Player.BLUE).size() +"     ");
+			
 			table.repaint();
 		}
 	}
