@@ -46,7 +46,7 @@ public class GameBoard extends JPanel {
 	
 	
 	private void createView(){
-		scoreLabel = new JLabel("     0 : 0     ");
+		scoreLabel = new JLabel("     2 : 2     ");
 		Font font = new Font("Arial",Font.BOLD,20);
 		scoreLabel.setFont(font);
 	}
@@ -100,7 +100,12 @@ public class GameBoard extends JPanel {
 		JLabel labelTemp = new JLabel();
 		labelTemp.setIcon(BoardCellRenderer.createBigImageIcon("/data/images/redPion.png"));
 		panelTemp.add(labelTemp, BorderLayout.WEST);
-		panelTemp.add(scoreLabel);
+		
+		JPanel tempScoreLabel = new JPanel();
+		tempScoreLabel.add(scoreLabel);
+		panelTemp.add(tempScoreLabel);
+		
+		
 		labelTemp = new JLabel();
 		labelTemp.setIcon(BoardCellRenderer.createBigImageIcon("/data/images/bluePion.png"));
 		panelTemp.add(labelTemp, BorderLayout.EAST);
