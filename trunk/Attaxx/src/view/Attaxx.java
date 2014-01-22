@@ -81,8 +81,8 @@ public class Attaxx {
 	 * Creates a Model
 	 */
 	private void createModel() {
-		choixLevel = 1;
-		algo = new MiniMax(choixLevel);
+		choixLevel = 2;
+		algo = new SSS(choixLevel);
 		model = new AttaxxModel(7, 7, algo);
 	}
 
