@@ -136,72 +136,80 @@ public class MenuBar extends JMenuBar{
 
 	private void createController(final Attaxx ataxx){
 
-		rbMenuItemLevel[0].addItemListener(new ItemListener(){
-			@Override
-			public void itemStateChanged(ItemEvent arg0) {
+
+		rbMenuItemLevel[0].addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
 				rbMenuItemLevel[0].setSelected(true);
-				newGame(1,ALPHABETA);
+				newGame(1,algo);
 			}
 		});
 
-		rbMenuItemLevel[1].addItemListener(new ItemListener(){
-			@Override
-			public void itemStateChanged(ItemEvent arg0) {
+		rbMenuItemLevel[1].addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
 				rbMenuItemLevel[1].setSelected(true);
-				newGame(2,ALPHABETA);
+				newGame(2,algo);
 			}
 		});
 
-		rbMenuItemLevel[2].addItemListener(new ItemListener(){
-			@Override
-			public void itemStateChanged(ItemEvent arg0) {
+		rbMenuItemLevel[2].addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
 				rbMenuItemLevel[2].setSelected(true);
-				newGame(3,ALPHABETA);
+				newGame(3,algo);
 			}
 		});
 
-		rbMenuItemAlgo[MINIMAX].addItemListener(new ItemListener(){
+
+		rbMenuItemAlgo[MINIMAX].addActionListener(new ActionListener(){
+
 			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				rbMenuItemAlgo[0].setSelected(true);
-				newGame(choixLevel,MINIMAX);
+			public void actionPerformed(ActionEvent arg0) {
+				rbMenuItemAlgo[MINIMAX].setSelected(true);
+				newGame(choixLevel, MINIMAX);
 			}
 		});
 
-		rbMenuItemAlgo[ALPHABETA].addItemListener(new ItemListener(){
+		rbMenuItemAlgo[ALPHABETA].addActionListener(new ActionListener(){
+
 			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				rbMenuItemAlgo[1].setSelected(true);
-				newGame(choixLevel,ALPHABETA);
+			public void actionPerformed(ActionEvent arg0) {
+				rbMenuItemAlgo[ALPHABETA].setSelected(true);
+				newGame(choixLevel, ALPHABETA);
 			}
 
 		});
 
-		rbMenuItemAlgo[NEGAMAX].addItemListener(new ItemListener(){
+
+		rbMenuItemAlgo[NEGAMAX].addActionListener(new ActionListener(){
+
 			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				rbMenuItemAlgo[2].setSelected(true);
-				newGame(choixLevel,NEGAMAX);
+			public void actionPerformed(ActionEvent arg0) {
+				rbMenuItemAlgo[NEGAMAX].setSelected(true);
+				newGame(choixLevel, NEGAMAX);
 			}
 
 		});
 
-		rbMenuItemAlgo[ALPHABETANEGAMAX].addItemListener(new ItemListener(){
+
+		rbMenuItemAlgo[ALPHABETANEGAMAX].addActionListener(new ActionListener(){
+
 			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				rbMenuItemAlgo[3].setSelected(true);
-				newGame(choixLevel,ALPHABETANEGAMAX);
+			public void actionPerformed(ActionEvent arg0) {
+				rbMenuItemAlgo[ALPHABETANEGAMAX].setSelected(true);
+				newGame(choixLevel, ALPHABETANEGAMAX);
 			}
 
 		});
 
-		rbMenuItemAlgo[SSS].addItemListener(new ItemListener(){
+		rbMenuItemAlgo[SSS].addActionListener(new ActionListener(){
+
 			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				newAlgo = SSS;
-				rbMenuItemAlgo[4].setSelected(true);
+			public void actionPerformed(ActionEvent arg0) {
+				rbMenuItemAlgo[SSS].setSelected(true);
+				newGame(choixLevel, SSS);
 			}
+
 		});
+
 
 		// règle du jeu
 		menuRegle.addActionListener(new ActionListener(){
@@ -232,7 +240,7 @@ public class MenuBar extends JMenuBar{
 						"Quitter",
 						JOptionPane.YES_NO_OPTION);
 				if (retour == JOptionPane.NO_OPTION) {
-//					System.exit(0);
+					//					System.exit(0);
 				} else {
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
@@ -244,7 +252,7 @@ public class MenuBar extends JMenuBar{
 			}
 
 		});
-		
+
 		addBricks.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				ataxx.getBoard().getModel().setTakeenBrick(true);
@@ -256,31 +264,23 @@ public class MenuBar extends JMenuBar{
 		rbMenuItemLevel[choixLevel-1].setSelected(true);
 		rbMenuItemAlgo[algo].setSelected(true);
 	}
-	
-	private void newGame(final int choixLevel, int algo) {
-//		JOptionPane d = new JOptionPane();
-//		@SuppressWarnings("static-access")
+
+	private void newGame(final int choixLevel, final int algo) {
+
 		int retour = JOptionPane.showConfirmDialog(null, 
 				"Ces paramètres ne s'appliqueront pas au jeu en cours," +
-				" voulez-vous commener une nouvelle partie ?",
-				"Paramètres du jeu modifiés",
-				JOptionPane.YES_NO_OPTION);
-		if (retour == JOptionPane.NO_OPTION) {
-//			d.setVisible(false);
-			System.exit(0);
-//			d.disable();
-//			d.hide();
-//			d.removeAll();
-//			d.setVisible(false);
-//			System.out.println(d);
-		} else {
+						" voulez-vous commencer une nouvelle partie ?",
+						"Paramètres du jeu modifiés",
+						JOptionPane.YES_NO_OPTION);
+		
+		if (retour == JOptionPane.YES_OPTION) {
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					new Attaxx(choixLevel, newAlgo).display();
+					new Attaxx(choixLevel, algo).display();
 				}
 			});
+
 			ataxx.close();
 		}
-
 	}
 }
