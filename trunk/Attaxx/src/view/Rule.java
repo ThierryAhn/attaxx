@@ -21,6 +21,7 @@ import javax.swing.text.html.StyleSheet;
  * @author Folabi
  *
  */
+@SuppressWarnings("serial")
 public class Rule extends JDialog{
 
 	/**

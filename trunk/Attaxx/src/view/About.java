@@ -16,6 +16,7 @@ import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 
+@SuppressWarnings("serial")
 public class About extends JDialog{
 
 	/**
