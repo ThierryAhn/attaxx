@@ -1,21 +1,8 @@
 package view;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
-import javax.swing.Box;
-import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingUtilities;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 
 import model.AttaxxModel;
 import model.algorithm.AlphaBeta;
@@ -33,124 +20,101 @@ import model.algorithm.SSS;
  */
 public class Attaxx {
 
+	private final static int MINIMAX = 0;
+	private final static int ALPHABETA = 1;
+	private final static int NEGAMAX = 2;
+	private final static int ALPHABETANEGAMAX = 3;
+	private final static int SSS = 4;
+	
 	private int choixLevel;
 	private JFrame frame;
 	private GameBoard board;
 	private PlayerAlgo algo;
+	private int algor;
 	private AttaxxModel model;
-	//private PlayerAlgo algor;
 
-	private JMenuBar menuBar;
-	private JMenu menuParam;
-	private JMenu menuNewGame;
-	private JMenu menuHelp;
-
-	private JMenu subMenuItemLevel;
-	private JMenu subMenuItemAlgo;
-
-	private JMenuItem menuRegle;
-	private JMenuItem menuApropos;
-
-	private ButtonGroup groupLevel;
-	private ButtonGroup groupAlgo;
-	private JMenuItem addBricks;
-
-	private JRadioButtonMenuItem[] rbMenuItemLevel;
-	private JRadioButtonMenuItem[] rbMenuItemAlgo;
+	private MenuBar menuBar;
 
 	final String algos[] = {"MiniMax",
-			"AlphaBeta",
-			"NegaMax",
-			"AlphaBetaNegaMax",
-	"SSS"};
+							"AlphaBeta",
+							"NegaMax",
+							"AlphaBetaNegaMax",
+							"SSS"};
 	final String level[] = {"Facile",
-			"Moyen",
-	"Difficile"};
+							"Moyen",
+							"Difficile"};
 
 	/**
 	 * Constructor
 	 */
 	public Attaxx() {
-		createModel();
+		createModel(1,MINIMAX);
+		createView();
+		placeComponents();
+		createController();
+	}
+	
+	public Attaxx(int choixlevel, int algo) {
+		createModel(choixlevel, algo);
 		createView();
 		placeComponents();
 		createController();
 	}
 
+
+
 	/**
 	 * Creates a Model
 	 */
-	private void createModel() {
-		choixLevel = 2;
-		algo = new SSS(choixLevel);
-		model = new AttaxxModel(7, 7, algo);
+	private void createModel(int choixlevel, int algorithme) {
+		this.choixLevel = choixlevel;
+		switch (algorithme) {
+		case MINIMAX:
+			algor = MINIMAX;
+			this.algo = new MiniMax(choixlevel);
+			model = new AttaxxModel(7, 7, algo);
+			break;
+		case ALPHABETA:
+			algor = ALPHABETA;
+			this.algo = new AlphaBeta(choixlevel);
+			model = new AttaxxModel(7, 7, algo);
+			break;
+		case NEGAMAX:
+			algor = NEGAMAX;
+			this.algo = new NegaMax(choixlevel);
+			model = new AttaxxModel(7, 7, algo);
+			break;
+		case ALPHABETANEGAMAX:
+			algor = ALPHABETANEGAMAX;
+			this.algo = new AlphaBetaNegaMax(choixlevel);
+			model = new AttaxxModel(7, 7, algo);
+			break;
+		case SSS:
+			algor = SSS;
+			this.algo = new SSS(choixlevel);
+			model = new AttaxxModel(7, 7, algo);
+			break;
+		default:
+			break;
+		}
+		
 	}
 
 	/**
 	 * Creates the view
 	 */
 	private void createView() {
-		ImageIcon img = new ImageIcon(getClass().getResource("/data/images/bluePion.png"));
+		ImageIcon img = new ImageIcon(
+				getClass().getResource("/data/images/bluePion.png"));
 
 		frame = new JFrame("Attaxx");
 		frame.setIconImage(img.getImage());
 
 		board = new GameBoard(model);
-		menuBar = new JMenuBar();
-		// menu parametres
-		menuParam = new JMenu("Paramètres");
-		menuParam.setIcon(new ImageIcon(getClass().getResource("/data/images/param.png")));
-
-		rbMenuItemLevel = new JRadioButtonMenuItem[level.length];
-		rbMenuItemAlgo = new JRadioButtonMenuItem[algos.length];
-
-		// sous menu level
-		subMenuItemLevel = new JMenu("Level");
-		groupLevel = new ButtonGroup();
-		for(int i = 0;i<level.length;i++){
-			rbMenuItemLevel[i] = new JRadioButtonMenuItem(level[i]);
-			groupLevel.add(rbMenuItemLevel[i]);
-			subMenuItemLevel.add(rbMenuItemLevel[i]);
-		}
-		subMenuItemLevel.setIcon(new ImageIcon(getClass().getResource("/data/images/level.png")));
-		menuParam.add(subMenuItemLevel);
-		// sous menu algo
-		subMenuItemAlgo = new JMenu("Algorithme");
-		groupAlgo = new ButtonGroup();
-		for(int i = 0;i<algos.length;i++){
-			rbMenuItemAlgo[i] = new JRadioButtonMenuItem(algos[i]);
-			groupAlgo.add(rbMenuItemAlgo[i]);
-			subMenuItemAlgo.add(rbMenuItemAlgo[i]);
-		}
-		subMenuItemAlgo.setIcon(new ImageIcon(getClass().getResource("/data/images/logo.png")));
-		menuParam.add(subMenuItemAlgo);
+		menuBar = new MenuBar(this);
 		
-		
-		// menu aide
-		menuHelp = new JMenu("Aide");
-		menuHelp.setIcon(new ImageIcon(getClass().getResource("/data/images/aide.png")));
-		menuRegle = new JMenuItem("Règle du jeu");
-		menuHelp.add(menuRegle);
-
-		menuApropos = new JMenuItem("A propos !");
-		menuHelp.add(menuApropos);
-
-		// menu nouveau jeu
-		menuNewGame = new JMenu("Nouveau jeu");
-		menuNewGame.setIcon(new ImageIcon(getClass().getResource("/data/images/new.png")));
-
-		menuBar.add(menuParam);
-		menuBar.add(menuHelp);
-		menuBar.add(Box.createHorizontalGlue()); 
-		menuBar.add(menuNewGame);
-		
-		addBricks = new JMenuItem("Gérer Blocs");
-		menuParam.add(addBricks);
-		addBricks.setIcon(new ImageIcon(getClass().getResource("/data/images/blockLogo.png")));
-		rbMenuItemLevel[choixLevel-1].setSelected(true);
-		rbMenuItemAlgo[0].setSelected(true);
 	}
-
+	
 	/**
 	 * Places the components on the Frame
 	 */
@@ -164,114 +128,7 @@ public class Attaxx {
 	 */
 	private void createController() {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		rbMenuItemLevel[0].addItemListener(new ItemListener(){
-			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				choixLevel = 1;
-				rbMenuItemLevel[0].setSelected(true);
-			}
-		});
-
-		rbMenuItemLevel[1].addItemListener(new ItemListener(){
-			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				choixLevel = 2;
-				rbMenuItemLevel[1].setSelected(true);
-			}
-		});
-
-		rbMenuItemLevel[2].addItemListener(new ItemListener(){
-			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				choixLevel = 3;
-				rbMenuItemLevel[2].setSelected(true);
-			}
-		});
-
-		rbMenuItemAlgo[0].addItemListener(new ItemListener(){
-			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				algo = new MiniMax(choixLevel);
-				model.setAlgo(algo);
-				rbMenuItemAlgo[0].setSelected(true);
-			}
-		});
-
-		rbMenuItemAlgo[1].addItemListener(new ItemListener(){
-			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				algo = new AlphaBeta(choixLevel);
-				model.setAlgo(algo);
-				rbMenuItemAlgo[1].setSelected(true);
-			}
-
-		});
-
-		rbMenuItemAlgo[2].addItemListener(new ItemListener(){
-			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				algo = new NegaMax(choixLevel);
-				model.setAlgo(algo);
-				rbMenuItemAlgo[2].setSelected(true);
-			}
-
-		});
-
-		rbMenuItemAlgo[3].addItemListener(new ItemListener(){
-			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				algo = new AlphaBetaNegaMax(choixLevel);
-				model.setAlgo(algo);
-				rbMenuItemAlgo[3].setSelected(true);
-			}
-
-		});
-
-		rbMenuItemAlgo[4].addItemListener(new ItemListener(){
-			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				algo = new SSS(choixLevel);
-				model.setAlgo(algo);
-				rbMenuItemAlgo[4].setSelected(true);
-			}
-		});
-
-		// règle du jeu
-		menuRegle.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				new Rule(frame);
-			}
-		});
-
-		menuApropos.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				new About(frame);
-			}
-		});
-
-
-		// new game
-		menuNewGame.addMenuListener(new MenuListener(){
-			@Override
-			public void menuCanceled(MenuEvent arg0) {}
-
-			@Override
-			public void menuDeselected(MenuEvent arg0) {}
-
-			@Override
-			public void menuSelected(MenuEvent arg0) {
-				board.reinit();
-				board.getTable().repaint(3);
-			}
-
-		});
-		
-		addBricks.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0) {
-				board.getModel().setTakeenBrick(true);
-			}
-		});
+//		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	}
 
 	/**
@@ -315,6 +172,22 @@ public class Attaxx {
 
 	public void setBoard(GameBoard board) {
 		this.board = board;
+	}
+
+	public int getChoixLevel() {
+		return choixLevel;
+	}
+
+	public void setChoixLevel(int choixLevel) {
+		this.choixLevel = choixLevel;
+	}
+
+	public int getAlgor() {
+		return algor;
+	}
+
+	public void setAlgor(int algor) {
+		this.algor = algor;
 	}
 
 }
