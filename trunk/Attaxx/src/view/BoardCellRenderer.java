@@ -72,7 +72,7 @@ public class BoardCellRenderer extends DefaultTableCellRenderer {
 		return new ImageIcon(img);
 	}
 
-	private static ImageIcon createBigImageIcon(String path) {
+	public static ImageIcon createBigImageIcon(String path) {
 		java.net.URL imgURL = BoardCellRenderer.class.getResource(path);
 		if (imgURL == null) {
 			System.err.println("Ressource non trouvée : " + path);
