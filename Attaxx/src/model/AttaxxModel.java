@@ -13,7 +13,7 @@ public class AttaxxModel implements Cloneable, Comparable<AttaxxModel>{
 	private int rowNumber, columnNumber;
 	private PlayerAlgo algo;
 	private boolean initial;
-
+	private boolean takeenBrick; 
 
 	private boolean selected = false;
 
@@ -318,6 +318,14 @@ public class AttaxxModel implements Cloneable, Comparable<AttaxxModel>{
 			}
 		}
 		return md;
+	}
+
+	public boolean isTakeenBrick() {
+		return takeenBrick;
+	}
+
+	public void setTakeenBrick(boolean takeenBrick) {
+		this.takeenBrick = takeenBrick;
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import javax.swing.table.AbstractTableModel;
 public class BoardModel extends AbstractTableModel implements BoardTableModel {
 
 	private AttaxxModel boardModel;
-
+	
 
 	/**
 	 * Constructor
