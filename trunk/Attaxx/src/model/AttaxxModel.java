@@ -12,6 +12,7 @@ public class AttaxxModel implements Cloneable, Comparable<AttaxxModel>{
 	private String currentPlayer;
 	private int rowNumber, columnNumber;
 	private PlayerAlgo algo;
+	private boolean initial;
 
 
 	private boolean selected = false;
@@ -85,6 +86,14 @@ public class AttaxxModel implements Cloneable, Comparable<AttaxxModel>{
 		return null;
 	}
 
+	public boolean isInitial() {
+		return initial;
+	}
+
+	public void setInitial(boolean initial) {
+		this.initial = initial;
+	}
+
 	private void initCells(){
 		cells = new Cell[getRowNumber()][getColumnNumber()];
 		for(int i = 0; i < getRowNumber();i++){
@@ -95,7 +104,11 @@ public class AttaxxModel implements Cloneable, Comparable<AttaxxModel>{
 	}
 
 	public void reinit() {
-		initCells();
+		for(int i = 0; i < getRowNumber();i++){
+			for(int j = 0; j < getColumnNumber();j++){
+				cells[i][j].setEmpty();
+			}
+		}
 	}
 
 	public void setSelected(Cell cell, boolean bool) {
@@ -239,6 +252,10 @@ public class AttaxxModel implements Cloneable, Comparable<AttaxxModel>{
 			}
 		}
 		return list;
+	}
+
+	public void setAlgo(PlayerAlgo algo) {
+		this.algo = algo;
 	}
 
 	public int heuristic(){
