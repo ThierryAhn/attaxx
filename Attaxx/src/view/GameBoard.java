@@ -20,6 +20,10 @@ public class GameBoard extends JPanel {
 	private static final int DIMENSIONVALUE = 50;
 
 	private BoardTableModel model;
+	
+
+
+
 	private JTable table;
 	private AttaxxModel boardModel;
 
@@ -32,7 +36,7 @@ public class GameBoard extends JPanel {
 		createController();
 	}
 
-	public AttaxxModel getBoard() {
+	public AttaxxModel getModel() {
 		return boardModel;
 	}
 
@@ -73,11 +77,12 @@ public class GameBoard extends JPanel {
 		boardModel.getCell(6, 6).setPlayer(Player.RED);
 		boardModel.getCell(0, 6).setPlayer(Player.BLUE);
 		boardModel.getCell(6, 0).setPlayer(Player.BLUE);
-//		boardModel.getCell(1, 1).setBlock();
-//		boardModel.getCell(1, 5).setBlock();
-//		boardModel.getCell(3, 3).setBlock();
-//		boardModel.getCell(5, 1).setBlock();
-//		boardModel.getCell(5, 5).setBlock();
+		boardModel.setInitial(true);
+		boardModel.getCell(1, 1).setBlock();
+		boardModel.getCell(1, 5).setBlock();
+		boardModel.getCell(3, 3).setBlock();
+		boardModel.getCell(5, 1).setBlock();
+		boardModel.getCell(5, 5).setBlock();
 	}
 
 	public void reinit() {
@@ -92,4 +97,15 @@ public class GameBoard extends JPanel {
 		table.addMouseListener(bc);
 		table.addMouseMotionListener(bc);
 	}
+
+	public AttaxxModel getBoardModel() {
+		return boardModel;
+	}
+
+	public void setBoardModel(AttaxxModel boardModel) {
+		this.boardModel = boardModel;
+	}
+
+	
+	
 }
