@@ -119,6 +119,7 @@ public class GameBoard extends JPanel {
 		boardModel.getCell(6, 6).setPlayer(Player.RED);
 		boardModel.getCell(0, 6).setPlayer(Player.BLUE);
 		boardModel.getCell(6, 0).setPlayer(Player.BLUE);
+		boardModel.setInitial(true);
 //		boardModel.getCell(1, 1).setBlock();
 //		boardModel.getCell(1, 5).setBlock();
 //		boardModel.getCell(3, 3).setBlock();
