@@ -68,6 +68,10 @@ public class MenuBar extends JMenuBar{
 		subMenuItemLevel = new JMenu("Level");
 		groupLevel = new ButtonGroup();
 		menuParam = new JMenu("Paramètres");
+		menuParam.setIcon(new ImageIcon(
+				getClass().getResource("/data/images/param.png")));
+		
+		
 		rbMenuItemLevel = new JRadioButtonMenuItem[level.length];
 		rbMenuItemAlgo = new JRadioButtonMenuItem[algos.length];
 		for(int i = 0;i<level.length;i++){
@@ -103,7 +107,6 @@ public class MenuBar extends JMenuBar{
 				new ImageIcon(getClass().getResource("/data/images/new.png")));
 		this.add(menuParam);
 		this.add(menuHelp);
-		this.add(Box.createHorizontalGlue()); 
 		this.add(menuNewGame);
 		addBricks = new JMenuItem("Gérer Blocs");
 		menuParam.add(addBricks);
