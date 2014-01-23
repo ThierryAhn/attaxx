@@ -84,7 +84,7 @@ public class GameBoard extends JPanel {
 
 	private void placeComponents() {
 		JPanel panelScore = new JPanel();
-		panelScore.setBorder(BorderFactory.createMatteBorder(5, 0, 0, 0, Color.black));
+		panelScore.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.darkGray));
 		setLayout(new BorderLayout());
 		this.add(table, BorderLayout.CENTER);
 		panelScore.add(new JLabel(""), BorderLayout.WEST);
