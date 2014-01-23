@@ -127,7 +127,7 @@ public class BoardController extends MouseAdapter {
 
 	private void endOfGame(BoardModel model) {
 		int retour = JOptionPane.showConfirmDialog(null, 
-				"Le jeux est finis\n Voulez vous rejouer ?",
+				"Le jeux est Terminé\n Voulez vous rejouer ?",
 				"Félicitation !",
 				JOptionPane.YES_NO_OPTION);
 		if (retour == JOptionPane.NO_OPTION) {
