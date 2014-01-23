@@ -2,8 +2,6 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
@@ -49,14 +47,9 @@ public class MenuBar extends JMenuBar{
 	private int choixLevel;
 	private Attaxx ataxx;
 
-	final String algos[] = {"MiniMax",
-			"AlphaBeta",
-			"NegaMax",
-			"AlphaBetaNegaMax",
-	"SSS"};
-	final String level[] = {"Facile",
-			"Moyen",
-	"Difficile"};
+	final String algos[] = {"MiniMax", "AlphaBeta", "NegaMax",
+							"AlphaBetaNegaMax", "SSS"};
+	final String level[] = {"Facile", "Moyen", "Difficile"};
 
 	public MenuBar(Attaxx ataxx){
 		this.choixLevel = ataxx.getChoixLevel();
@@ -96,28 +89,22 @@ public class MenuBar extends JMenuBar{
 		subMenuItemAlgo.setIcon(
 				new ImageIcon(getClass().getResource("/data/images/logo.png")));
 		menuParam.add(subMenuItemAlgo);
-
-
 		// menu aide
 		menuHelp = new JMenu("Aide");
 		menuHelp.setIcon(
 				new ImageIcon(getClass().getResource("/data/images/aide.png")));
 		menuRegle = new JMenuItem("Règle du jeu");
 		menuHelp.add(menuRegle);
-
 		menuApropos = new JMenuItem("A propos !");
 		menuHelp.add(menuApropos);
-
 		// menu nouveau jeu
 		menuNewGame = new JMenu("Nouveau jeu");
 		menuNewGame.setIcon(
 				new ImageIcon(getClass().getResource("/data/images/new.png")));
-
 		this.add(menuParam);
 		this.add(menuHelp);
 		this.add(Box.createHorizontalGlue()); 
 		this.add(menuNewGame);
-
 		addBricks = new JMenuItem("Gérer Blocs");
 		menuParam.add(addBricks);
 		addBricks.setIcon(
@@ -135,8 +122,6 @@ public class MenuBar extends JMenuBar{
 	}
 
 	private void createController(final Attaxx ataxx){
-
-
 		rbMenuItemLevel[0].addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				rbMenuItemLevel[0].setSelected(true);
@@ -160,7 +145,6 @@ public class MenuBar extends JMenuBar{
 
 
 		rbMenuItemAlgo[MINIMAX].addActionListener(new ActionListener(){
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				rbMenuItemAlgo[MINIMAX].setSelected(true);
@@ -169,7 +153,6 @@ public class MenuBar extends JMenuBar{
 		});
 
 		rbMenuItemAlgo[ALPHABETA].addActionListener(new ActionListener(){
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				rbMenuItemAlgo[ALPHABETA].setSelected(true);
@@ -180,7 +163,6 @@ public class MenuBar extends JMenuBar{
 
 
 		rbMenuItemAlgo[NEGAMAX].addActionListener(new ActionListener(){
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				rbMenuItemAlgo[NEGAMAX].setSelected(true);
@@ -191,7 +173,6 @@ public class MenuBar extends JMenuBar{
 
 
 		rbMenuItemAlgo[ALPHABETANEGAMAX].addActionListener(new ActionListener(){
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				rbMenuItemAlgo[ALPHABETANEGAMAX].setSelected(true);
@@ -201,7 +182,6 @@ public class MenuBar extends JMenuBar{
 		});
 
 		rbMenuItemAlgo[SSS].addActionListener(new ActionListener(){
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				rbMenuItemAlgo[SSS].setSelected(true);

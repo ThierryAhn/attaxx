@@ -26,11 +26,7 @@ public class GameBoard extends JPanel {
 	private BoardTableModel model;
 	private JTable table;
 	private AttaxxModel boardModel;
-	
-	
 	private JLabel scoreLabel;
-	
-	
 	
 	public GameBoard(AttaxxModel boardModel) {
 		this.boardModel = boardModel;
@@ -80,7 +76,6 @@ public class GameBoard extends JPanel {
 				table.setValueAt(boardModel.getCell(i, j), i, j);
 			}
 		}
-
 		table.setRowHeight(DIMENSIONVALUE);
 		for (int i = 0; i < model.getColumnCount(); i++) {
 			table.getColumnModel().getColumn(i).setPreferredWidth(DIMENSIONVALUE);
@@ -88,39 +83,23 @@ public class GameBoard extends JPanel {
 	}
 
 	private void placeComponents() {
-		
 		JPanel panelScore = new JPanel();
-		
 		panelScore.setBorder(BorderFactory.createMatteBorder(5, 0, 0, 0, Color.black));
-		
 		setLayout(new BorderLayout());
-		
 		this.add(table, BorderLayout.CENTER);
-		
 		panelScore.add(new JLabel(""), BorderLayout.WEST);
-		
-		
-		
-		
 		JPanel panelTemp = new JPanel(new BorderLayout());
-		
 		JLabel labelTemp = new JLabel();
 		labelTemp.setIcon(BoardCellRenderer.createBigImageIcon("/data/images/redPion.png"));
 		panelTemp.add(labelTemp, BorderLayout.WEST);
-		
 		JPanel tempScoreLabel = new JPanel();
 		tempScoreLabel.add(scoreLabel);
 		panelTemp.add(tempScoreLabel);
-		
-		
 		labelTemp = new JLabel();
 		labelTemp.setIcon(BoardCellRenderer.createBigImageIcon("/data/images/bluePion.png"));
 		panelTemp.add(labelTemp, BorderLayout.EAST);
-		
 		panelScore.add(panelTemp, BorderLayout.CENTER);
-		
 		panelScore.add(new JLabel(""), BorderLayout.EAST);
-		
 		this.add(panelScore, BorderLayout.SOUTH);
 	}
 
@@ -132,11 +111,6 @@ public class GameBoard extends JPanel {
 		boardModel.getCell(0, 6).setPlayer(Player.BLUE);
 		boardModel.getCell(6, 0).setPlayer(Player.BLUE);
 		boardModel.setInitial(true);
-//		boardModel.getCell(1, 1).setBlock();
-//		boardModel.getCell(1, 5).setBlock();
-//		boardModel.getCell(3, 3).setBlock();
-//		boardModel.getCell(5, 1).setBlock();
-//		boardModel.getCell(5, 5).setBlock();
 	}
 
 	public void reinit() {
