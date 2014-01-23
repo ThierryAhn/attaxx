@@ -1,9 +1,11 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -89,11 +91,16 @@ public class GameBoard extends JPanel {
 		
 		JPanel panelScore = new JPanel();
 		
+		panelScore.setBorder(BorderFactory.createMatteBorder(5, 0, 0, 0, Color.black));
+		
 		setLayout(new BorderLayout());
 		
 		this.add(table, BorderLayout.CENTER);
 		
 		panelScore.add(new JLabel(""), BorderLayout.WEST);
+		
+		
+		
 		
 		JPanel panelTemp = new JPanel(new BorderLayout());
 		
