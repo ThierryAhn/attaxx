@@ -127,22 +127,46 @@ public class MenuBar extends JMenuBar{
 	private void createController(final Attaxx ataxx){
 		rbMenuItemLevel[0].addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				rbMenuItemLevel[0].setSelected(true);
-				newGame(1,algo);
+				if(!ataxx.getBoard().getModel().isInitial()){
+					newGame(1,algo);
+				}else{
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							new Attaxx(1, algo).display();
+						}
+					});
+					ataxx.close();
+				}
 			}
 		});
 
 		rbMenuItemLevel[1].addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				rbMenuItemLevel[1].setSelected(true);
-				newGame(2,algo);
+				if(!ataxx.getBoard().getModel().isInitial()){
+					newGame(2,algo);
+				}else{
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							new Attaxx(2, algo).display();
+						}
+					});
+					ataxx.close();
+				}
 			}
 		});
 
 		rbMenuItemLevel[2].addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				rbMenuItemLevel[2].setSelected(true);
-				newGame(3,algo);
+				if(!ataxx.getBoard().getModel().isInitial()){
+					newGame(3,algo);
+				}else{
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							new Attaxx(3, algo).display();
+						}
+					});
+					ataxx.close();
+				}
 			}
 		});
 
@@ -150,16 +174,32 @@ public class MenuBar extends JMenuBar{
 		rbMenuItemAlgo[MINIMAX].addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				rbMenuItemAlgo[MINIMAX].setSelected(true);
-				newGame(choixLevel, MINIMAX);
+				if(!ataxx.getBoard().getModel().isInitial()){
+					newGame(choixLevel, MINIMAX);
+				}else{
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							new Attaxx(choixLevel, MINIMAX).display();
+						}
+					});
+					ataxx.close();
+				}
 			}
 		});
 
 		rbMenuItemAlgo[ALPHABETA].addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				rbMenuItemAlgo[ALPHABETA].setSelected(true);
-				newGame(choixLevel, ALPHABETA);
+				if(!ataxx.getBoard().getModel().isInitial()){
+					newGame(choixLevel, ALPHABETA);
+				}else{
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							new Attaxx(choixLevel, ALPHABETA).display();
+						}
+					});
+					ataxx.close();
+				}
 			}
 
 		});
@@ -168,8 +208,16 @@ public class MenuBar extends JMenuBar{
 		rbMenuItemAlgo[NEGAMAX].addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				rbMenuItemAlgo[NEGAMAX].setSelected(true);
-				newGame(choixLevel, NEGAMAX);
+				if(!ataxx.getBoard().getModel().isInitial()){
+					newGame(choixLevel, NEGAMAX);
+				}else{
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							new Attaxx(choixLevel, NEGAMAX).display();
+						}
+					});
+					ataxx.close();
+				}
 			}
 
 		});
@@ -178,8 +226,16 @@ public class MenuBar extends JMenuBar{
 		rbMenuItemAlgo[ALPHABETANEGAMAX].addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				rbMenuItemAlgo[ALPHABETANEGAMAX].setSelected(true);
-				newGame(choixLevel, ALPHABETANEGAMAX);
+				if(!ataxx.getBoard().getModel().isInitial()){
+					newGame(choixLevel, ALPHABETANEGAMAX);
+				}else{
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							new Attaxx(choixLevel, ALPHABETANEGAMAX).display();
+						}
+					});
+					ataxx.close();
+				}
 			}
 
 		});
@@ -187,8 +243,16 @@ public class MenuBar extends JMenuBar{
 		rbMenuItemAlgo[SSS].addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				rbMenuItemAlgo[SSS].setSelected(true);
-				newGame(choixLevel, SSS);
+				if(!ataxx.getBoard().getModel().isInitial()){
+					newGame(choixLevel, SSS);
+				}else{
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							new Attaxx(choixLevel, SSS).display();
+						}
+					});
+					ataxx.close();
+				}
 			}
 
 		});
@@ -218,22 +282,23 @@ public class MenuBar extends JMenuBar{
 
 			@Override
 			public void menuSelected(MenuEvent arg0) {
-				int retour = JOptionPane.showConfirmDialog(null, 
-						"Voulez-vous vraiment quitter partie ?",
-						"Quitter",
-						JOptionPane.YES_NO_OPTION);
-				if (retour == JOptionPane.NO_OPTION) {
-					//					System.exit(0);
-				} else {
-					SwingUtilities.invokeLater(new Runnable() {
-						public void run() {
-							new Attaxx(choixLevel, newAlgo).display();
-						}
-					});
-					ataxx.close();
+				if(!ataxx.getBoard().getModel().isInitial()){
+					int retour = JOptionPane.showConfirmDialog(null, 
+							"Voulez-vous vraiment quitter partie ?",
+							"Quitter",
+							JOptionPane.YES_NO_OPTION);
+					if (retour == JOptionPane.NO_OPTION) {
+						//					System.exit(0);
+					} else {
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								new Attaxx(choixLevel, newAlgo).display();
+							}
+						});
+						ataxx.close();
+					}
 				}
 			}
-
 		});
 
 		addBricks.addActionListener(new ActionListener(){
